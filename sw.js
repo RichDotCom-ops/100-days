@@ -1,15 +1,16 @@
 const CACHE = 'transform-v2';
+const BASE = '/100-days';
 const SHELL = [
-  '/',
-  '/index.html',
-  '/css/style.css',
-  '/css/screen.css',
-  '/js/main.js',
-  '/js/screen.js',
-  '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png',
-  '/icons/icon-180.png'
+  BASE + '/',
+  BASE + '/index.html',
+  BASE + '/css/style.css',
+  BASE + '/css/screen.css',
+  BASE + '/js/main.js',
+  BASE + '/js/screen.js',
+  BASE + '/manifest.json',
+  BASE + '/icons/icon-192.png',
+  BASE + '/icons/icon-512.png',
+  BASE + '/icons/icon-180.png'
 ];
 
 self.addEventListener('install', e => {
