@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#F72585">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Transform">
+<title>100 · Transformation Tracker</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icons/icon-180.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/screen.css">
+</head>
+<body>
+
+<div class="phone">
+  <div class="notch"></div>
+  <div class="screen-frame">
+
+    <div class="statusbar">
+      <span class="clock">9:41</span>
+      <div class="icons">
+        <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><rect x="0" y="7" width="3" height="5" rx="0.5" fill="#fff"/><rect x="5" y="5" width="3" height="7" rx="0.5" fill="#fff"/><rect x="10" y="3" width="3" height="9" rx="0.5" fill="#fff"/><rect x="15" y="0" width="3" height="12" rx="0.5" fill="#fff"/></svg>
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M8 10.5C6.7 10.5 5.5 10 4.6 9.1C4.4 8.9 4.4 8.6 4.6 8.4C6.5 6.5 9.5 6.5 11.4 8.4C11.6 8.6 11.6 8.9 11.4 9.1C10.5 10 9.3 10.5 8 10.5Z" fill="#fff"/><path d="M2.4 6.3C2.2 6.1 2.2 5.8 2.4 5.6C5.5 2.6 10.5 2.6 13.6 5.6C13.8 5.8 13.8 6.1 13.6 6.3C13.4 6.5 13.1 6.5 12.9 6.3C10.2 3.7 5.8 3.7 3.1 6.3C2.9 6.5 2.6 6.5 2.4 6.3Z" fill="#fff"/></svg>
+        <svg width="24" height="12" viewBox="0 0 24 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="2.5" stroke="#fff"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#fff"/><rect x="22.5" y="4" width="1.5" height="4" rx="0.7" fill="#fff"/></svg>
+      </div>
+    </div>
+
+    <div class="screens">
+
+      <!-- ============ HOME ============ -->
+      <section class="screen active" id="screen-home">
+        <div class="content">
+          <div class="topbar">
+            <div>
+              <p class="greeting" id="greetingText">Good morning,</p>
+              <p class="greeting-name"><span id="greetingName">You</span> <span>👋</span></p>
+            </div>
+            <div class="icon-btn" data-toast="No new notifications">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            </div>
+          </div>
+
+          <div class="quote-card" id="homeQuote">
+            <div class="quote-mark">"</div>
+            <p class="quote-text" id="homeQuoteText"></p>
+            <p class="quote-author" id="homeQuoteAuthor" style="display:none;"></p>
+          </div>
+
+          <div class="section-head" style="margin-top:14px;">
+            <h3>Recent Days</h3>
+            <a data-goto="timeline">See All</a>
+          </div>
+          <div class="recent-row" id="recentRow">
+            <div class="empty-hint">No entries yet — tap + to take your first photo</div>
+          </div>
+
+          <div class="card day-progress-card">
+            <div>
+              <p class="day-num">Day</p>
+              <p class="day-big" id="homeDayNum">1</p>
+              <p class="of">of <span id="homeGoal">100</span></p>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;">
+              <div class="ring">
+                <svg width="64" height="64">
+                  <circle cx="32" cy="32" r="27" stroke="#2a2a2a" stroke-width="6" fill="none"/>
+                  <circle id="ringProgress" cx="32" cy="32" r="27" stroke="#8FD13F" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="169.6" stroke-dashoffset="169.6"/>
+                </svg>
+                <div class="pct" id="homePct">0%</div>
+              </div>
+              <div class="label">Completed</div>
+            </div>
+          </div>
+
+          <div class="streak-row"><span>🔥</span> Current Streak &nbsp;<b id="homeStreak">0 days</b></div>
+
+          <div id="homeCalendar"></div>
+
+          <div class="first-photo-cta" id="firstPhotoCta" style="display:none;">
+            <div class="fpc-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7l1.5-3h5L16 7"/><circle cx="12" cy="13.5" r="3.5"/></svg>
+            </div>
+            <h3 class="fpc-title">Start your transformation</h3>
+            <p class="fpc-sub">Take your first progress photo to begin tracking your journey.</p>
+            <div class="fpc-btn" data-goto="camera">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+              Take First Photo
+            </div>
+          </div>
+
+        </div>
+        <nav class="bottomnav">
+          <div class="navitem active" data-nav="home" data-goto="home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1V10"/></svg>
+            Home
+          </div>
+          <div class="fab" data-goto="camera">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a0010" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
+          </div>
+          <div class="navitem" data-nav="timeline" data-goto="timeline">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+            Progress
+          </div>
+        </nav>
+      </section>
+
+      <!-- ============ CAMERA ============ -->
+      <section class="screen camera-screen" id="screen-camera">
+        <div class="camera-topbar">
+          <div class="icon-btn" data-goto="home">✕</div>
+          <div class="center-title"><h1 id="camDayTitle">Day 1</h1><div class="sub" id="camDate">—</div></div>
+          <div class="icon-btn" id="flipCamBtn" title="Flip camera">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+          </div>
+        </div>
+        <div class="align-pill" id="alignPill">✓ Align with previous photo</div>
+        <div class="viewfinder">
+          <div class="ghost" id="ghostPhoto"></div>
+          <video id="cameraVideo" autoplay playsinline muted></video>
+          <div class="cam-error" id="camError" hidden>
+            <p>Camera unavailable.</p>
+            <p class="small">Allow camera access, or upload a photo instead.</p>
+            <label class="upload-btn">
+              Upload Photo
+              <input type="file" accept="image/*" id="uploadInput" hidden>
+            </label>
+          </div>
+        </div>
+        <canvas id="captureCanvas" hidden></canvas>
+        <div class="cam-caption">Make sure lighting and pose match your previous photo.</div>
+        <div class="shutter-row">
+          <div style="width:44px;"></div>
+          <div class="shutter" id="shutterBtn"></div>
+          <div style="width:44px;"></div>
+        </div>
+        <div class="upload-photos-btn" id="galleryUploadBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Upload from Photos
+        </div>
+      </section>
+
+      <!-- ============ SAVE DAY ============ -->
+      <section class="screen" id="screen-save">
+        <div class="topbar" style="padding-left:20px;padding-right:20px;">
+          <div class="icon-btn" data-goto="camera">‹</div>
+          <div class="center-title"><h1 id="saveDayTitle">Day 1</h1><div class="sub" id="saveDate">—</div></div>
+          <div style="width:38px;"></div>
+        </div>
+        <div class="save-photo" id="savePhotoWrap"></div>
+        <div class="note-box">
+          <textarea id="dayNote" placeholder="Add a note (optional)" maxlength="100"></textarea>
+          <div class="count" id="noteCount">0/100</div>
+        </div>
+        <div class="stats-section" id="statsSection">
+          <div class="stats-section-head" id="statsToggleHead">
+            <span class="stats-head-label">Log measurements <span style="color:var(--muted-2);font-size:11px;font-weight:400;">(optional)</span></span>
+            <span class="stats-toggle-caret" id="statsToggleIcon">+</span>
+          </div>
+          <div class="stats-fields" id="statsFields">
+            <div class="stat-input-row">
+              <span class="stat-input-label">Weight</span>
+              <input type="number" id="statWeight" class="stat-num-input" placeholder="—" step="0.1" min="0" inputmode="decimal">
+              <div class="unit-toggle"><div class="unit-btn active" id="unitLbs">lbs</div><div class="unit-btn" id="unitKg">kg</div></div>
+            </div>
+            <div class="stat-input-row">
+              <span class="stat-input-label">Waist</span>
+              <input type="number" id="statWaist" class="stat-num-input" placeholder="—" step="0.1" min="0" inputmode="decimal">
+              <div class="unit-toggle"><div class="unit-btn active" id="unitIn">in</div><div class="unit-btn" id="unitCm">cm</div></div>
+            </div>
+            <div class="stat-input-row">
+              <span class="stat-input-label">Chest</span>
+              <input type="number" id="statChest" class="stat-num-input" placeholder="—" step="0.1" min="0" inputmode="decimal">
+              <span class="stat-unit-echo" id="statChestUnit">in</span>
+            </div>
+            <div class="stat-input-row">
+              <span class="stat-input-label">Hips</span>
+              <input type="number" id="statHips" class="stat-num-input" placeholder="—" step="0.1" min="0" inputmode="decimal">
+              <span class="stat-unit-echo" id="statHipsUnit">in</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="save-cta">
+          <button class="btn-primary" id="saveDayBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a0010" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg>
+            <span id="saveDayBtnLabel">Save as Day 1</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ============ TIMELINE ============ -->
+      <section class="screen" id="screen-timeline">
+        <div class="content">
+          <div class="topbar"><h1>Progress</h1><div style="width:38px;"></div></div>
+          <div class="overview-row"><span class="num" id="tlOverviewNum">0 / 100 days</span><span class="pct" id="tlOverviewPct">0%</span></div>
+          <div class="progressbar"><div class="fill" id="tlOverviewFill" style="width:0%;"></div></div>
+
+          <div class="timeline" id="timelineList">
+            <div class="empty-hint">No entries yet</div>
+          </div>
+
+          <div class="card milestone-card" id="milestoneCard" hidden>
+            <div><div class="lbl">Next milestone</div><div class="sub" id="milestoneSub">—</div></div>
+            <div class="days-left" id="milestoneDays">—</div>
+          </div>
+        </div>
+        <nav class="bottomnav">
+          <div class="navitem" data-nav="home" data-goto="home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1V10"/></svg>
+            Home
+          </div>
+          <div class="fab" data-goto="camera">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a0010" stroke-width="3"><path d="M12 5v14M5 12h14"/></svg>
+          </div>
+          <div class="navitem active" data-nav="timeline" data-goto="timeline">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+            Progress
+          </div>
+        </nav>
+      </section>
+
+      <!-- ============ COMPARISON ============ -->
+      <section class="screen" id="screen-comparison">
+        <div class="content no-tab">
+          <div class="topbar">
+            <div class="icon-btn" data-goto="timeline">‹</div>
+            <h1 style="font-size:19px;">Comparison</h1>
+            <div style="width:38px;"></div>
+          </div>
+
+          <div id="comparisonBody">
+            <div class="empty-hint" id="comparisonEmpty">Save at least 2 days to compare progress</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SETTINGS ============ -->
+      <section class="screen" id="screen-settings">
+        <div class="content no-tab">
+          <div class="topbar"><h1>Settings</h1><div style="width:38px;"></div></div>
+
+          <div class="settings-group-label">Goal</div>
+          <div class="settings-list">
+            <div class="set-row" data-goto="goal-edit">
+              <div class="set-icon" style="background:#1a6ed8;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+              </div>
+              <div class="set-label">100-Day Challenge</div>
+              <span class="set-value" id="goalValue">100 days</span><span class="chev">›</span>
+            </div>
+          </div>
+
+          <div class="settings-group-label">Reminders</div>
+          <div class="settings-list">
+            <div class="set-row" id="reminderToggleRow">
+              <div class="set-icon" style="background:#d83a1a;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+              </div>
+              <div class="set-label">Daily Reminder</div>
+              <div class="switch" id="reminderSwitch"><div class="knob"></div></div>
+            </div>
+            <div class="set-row" data-goto="reminder">
+              <div class="set-icon" style="background:#d87c1a;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              </div>
+              <div class="set-label">Reminder Time</div>
+              <span class="set-value" id="reminderTimeValue">8:00 AM</span><span class="chev">›</span>
+            </div>
+          </div>
+
+          <div class="settings-group-label">Privacy</div>
+          <div class="settings-list">
+            <div class="set-row" data-toast="All photos are stored only on this device. Nothing is uploaded anywhere.">
+              <div class="set-icon" style="background:#1a8c3a;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="11" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
+              </div>
+              <div class="set-label">Photo Privacy</div>
+              <span class="set-value">On-device only</span><span class="chev">›</span>
+            </div>
+          </div>
+
+          <div class="settings-group-label">Data</div>
+          <div class="settings-list">
+            <div class="set-row" id="startOverBtn">
+              <div class="set-icon" style="background:#3a3a3c;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+              </div>
+              <div class="set-label">Start Over</div>
+            </div>
+            <div class="set-row" id="exportVideoBtn">
+              <div class="set-icon" style="background:#6b1ad8;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="15" height="10" rx="2"/><path d="M17 9l5-2v10l-5-2V9z"/></svg>
+              </div>
+              <div class="set-label">Export Transformation Video</div>
+              <span class="chev">›</span>
+            </div>
+            <div class="set-row danger" id="deleteAllBtn">
+              <div class="set-icon" style="background:#d83a1a;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+            </div>
+              <div class="set-label">Delete All Photos</div>
+            </div>
+          </div>
+
+          <div class="settings-group-label">&nbsp;</div>
+          <div class="settings-list">
+            <div class="set-row" data-toast="100 · Transformation Tracker — a local-first progress photo app.">
+              <div class="set-icon" style="background:#3a3a3c;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8" stroke-width="3"/></svg>
+              </div>
+              <div class="set-label">About</div><span class="chev">›</span>
+            </div>
+          </div>
+
+          <div style="margin-top:18px; text-align:center;">
+            <a class="link-btn" data-goto="home-settings-close">Done</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ REMINDER TIME ============ -->
+      <section class="screen" id="screen-reminder">
+        <div class="content no-tab">
+          <div class="topbar">
+            <div class="icon-btn" data-goto="settings">‹</div>
+            <h1 style="font-size:19px;">Reminder Time</h1>
+            <div style="width:38px;"></div>
+          </div>
+          <div class="time-input-wrap">
+            <input type="time" id="reminderTimeInput" class="time-input" value="08:00">
+          </div>
+          <p class="align-desc" style="text-align:center;">We'll notify you once a day at this time (while the app is open in a browser tab).</p>
+          <div style="margin-top:auto; padding-top:40px;">
+            <button class="btn-primary" id="saveReminderBtn">Save</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ GOAL EDIT ============ -->
+      <section class="screen" id="screen-goal-edit">
+        <div class="content no-tab">
+          <div class="topbar">
+            <div class="icon-btn" data-goto="settings">‹</div>
+            <h1 style="font-size:19px;">Challenge Length</h1>
+            <div style="width:38px;"></div>
+          </div>
+          <div class="goal-options">
+            <div class="goal-opt" data-goal="30">30 Days</div>
+            <div class="goal-opt" data-goal="60">60 Days</div>
+            <div class="goal-opt selected" data-goal="100">100 Days</div>
+            <div class="goal-opt" data-goal="180">180 Days</div>
+            <div class="goal-opt" data-goal="365">365 Days</div>
+          </div>
+          <div style="margin-top:auto; padding-top:40px;">
+            <button class="btn-primary" id="saveGoalBtn">Save</button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <div class="fab-settings" data-goto="settings">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009.6 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3.5a2 2 0 010-4h.09A1.65 1.65 0 005 8.6a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9.4a1.65 1.65 0 001-1.51V2.5a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V8.6a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <!-- Pro upgrade sheet -->
+    <div id="proModal" class="pro-modal">
+      <div class="pro-sheet">
+        <div class="pro-header">
+          <div class="pro-dot-grid" aria-hidden="true"></div>
+          <div class="pro-badge">PRO</div>
+          <h2 class="pro-title">Unlock Pro</h2>
+          <p class="pro-sub">Everything unlocked. Forever.</p>
+        </div>
+        <div class="pro-body">
+          <ul class="pro-features">
+            <li><span class="pro-check">✦</span><div><b>Transformation Video Export</b><span>Download your journey as a time-lapse video</span></div></li>
+            <li><span class="pro-check">✦</span><div><b>Cloud Backup</b><span>Photos synced & safe — coming soon</span></div></li>
+            <li><span class="pro-check">✦</span><div><b>Advanced Analytics</b><span>Consistency score, best streaks & more</span></div></li>
+            <li><span class="pro-check">✦</span><div><b>Priority Support</b><span>Direct line to the team</span></div></li>
+          </ul>
+
+          <!-- Pricing toggle -->
+          <div class="pro-plan-toggle">
+            <div class="pro-plan active" id="planLifetime" data-plan="lifetime">
+              <div class="pro-plan-top">
+                <span class="pro-plan-name">Lifetime</span>
+                <span class="pro-plan-badge-best">BEST VALUE</span>
+              </div>
+              <div class="pro-plan-price"><span class="pro-currency">$</span>14.99</div>
+              <div class="pro-plan-note">Pay once, own forever</div>
+            </div>
+            <div class="pro-plan" id="planMonthly" data-plan="monthly">
+              <div class="pro-plan-top">
+                <span class="pro-plan-name">Monthly</span>
+              </div>
+              <div class="pro-plan-price"><span class="pro-currency">$</span>2.99<span class="pro-period">/mo</span></div>
+              <div class="pro-plan-note">Cancel anytime</div>
+            </div>
+          </div>
+
+          <button class="pro-cta" id="proUpgradeBtn">Get Lifetime — $14.99 →</button>
+          <button class="pro-dismiss" id="proModalClose">Maybe later</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Day detail bottom sheet -->
+    <div id="dayModal" class="day-modal">
+      <div class="day-modal-sheet">
+        <div class="day-modal-handle"></div>
+        <div class="day-modal-photo" id="dayModalPhoto"></div>
+        <div class="day-modal-info">
+          <div class="day-modal-row">
+            <div>
+              <div class="day-modal-title" id="dayModalTitle">Day 1</div>
+              <div class="day-modal-date" id="dayModalDate">—</div>
+            </div>
+            <div class="day-modal-close" id="dayModalClose">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </div>
+          </div>
+          <p class="day-modal-note" id="dayModalNote"></p>
+          <div class="day-modal-stats" id="dayModalStats" style="display:none;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ ONBOARDING OVERLAY ============ -->
+    <div id="ob-overlay" class="ob-overlay">
+
+      <!-- Slide 1: Splash / app name animation -->
+      <div class="ob-slide" id="ob-s1">
+        <div class="ob-splash">
+          <div class="ob-num">100</div>
+          <div class="ob-app-name">Transformation<br>Tracker</div>
+          <div class="ob-tagline">Document your body. Own your change.</div>
+        </div>
+        <button class="btn-primary ob-btn-anim" id="obStartBtn">Get Started</button>
+      </div>
+
+      <!-- Slide 2: Name -->
+      <div class="ob-slide ob-hidden" id="ob-s2">
+        <div class="ob-q-wrap">
+          <div class="ob-step-label">Step 1 of 2</div>
+          <h2 class="ob-heading">What should we<br>call you?</h2>
+          <input type="text" id="obNameInput" class="ob-text-input" placeholder="Your first name" maxlength="30" autocomplete="given-name" autocorrect="off" autocapitalize="words">
+        </div>
+        <button class="btn-primary" id="obNameNextBtn" disabled>Continue</button>
+      </div>
+
+      <!-- Slide 3: Goal -->
+      <div class="ob-slide ob-hidden" id="ob-s3">
+        <div class="ob-q-wrap">
+          <div class="ob-step-label">Step 2 of 2</div>
+          <h2 class="ob-heading">How long is your<br>challenge?</h2>
+          <div class="goal-options" id="ob-goal-opts">
+            <div class="goal-opt" data-goal="30">30 Days</div>
+            <div class="goal-opt" data-goal="60">60 Days</div>
+            <div class="goal-opt selected" data-goal="100">100 Days</div>
+            <div class="goal-opt" data-goal="180">180 Days</div>
+            <div class="goal-opt" data-goal="365">365 Days</div>
+          </div>
+        </div>
+        <button class="btn-primary" id="obGoalNextBtn">Build My Plan →</button>
+      </div>
+
+      <!-- Slide 4: Building plan loader -->
+      <div class="ob-slide ob-hidden" id="ob-s4">
+        <div class="ob-loading">
+          <div class="ob-ring-wrap">
+            <svg width="88" height="88" viewBox="0 0 88 88">
+              <circle cx="44" cy="44" r="36" stroke="#1c1c1c" stroke-width="7" fill="none"/>
+              <circle id="obRingArc" cx="44" cy="44" r="36" stroke="#ffffff" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="226.2" stroke-dashoffset="226.2"/>
+            </svg>
+            <span class="ob-pct" id="obPct">0%</span>
+          </div>
+          <h2 class="ob-loading-title">Building your plan<span id="obPlanName"></span>…</h2>
+          <p class="ob-tip" id="obTip">Setting up your timeline</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="js/screen.js"></script>
+<script src="js/main.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js');
+  }
+</script>
+</body>
+</html>

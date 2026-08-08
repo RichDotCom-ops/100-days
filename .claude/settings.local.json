@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(brew install *)",
+      "Bash(wait)",
+      "Bash(pod --version)",
+      "Bash(brew list *)",
+      "Bash(/usr/local/bin/pod --version)",
+      "Read(//usr/local/**)",
+      "Bash(gem install *)",
+      "Bash(ruby --version)",
+      "Bash(gem --version)",
+      "Bash(gem list *)",
+      "Bash(npm uninstall *)",
+      "Bash(npm install *)",
+      "Bash(npx cap *)",
+      "Bash(sudo gem *)",
+      "Bash(/usr/bin/pod --version)",
+      "Bash(gem environment *)",
+      "Bash(sips -g pixelWidth -g pixelHeight /Users/disow/Desktop/transformation-tracker/AppIcon.icon/appstore.png)",
+      "Bash(git init *)",
+      "Bash(git remote *)",
+      "Bash(git branch *)",
+      "Bash(git add *)",
+      "Bash(git rm *)",
+      "Bash(git commit *)"
+    ]
+  }
+}

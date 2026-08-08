@@ -1,0 +1,4 @@
+.DS_Store
+AppIcon.icon/
+node_modules/
+.claude/
