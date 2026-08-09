@@ -248,7 +248,7 @@ const Camera = (() => {
   let facingMode = 'user'; // front camera by default, like a mirror for progress photos
 
   async function start(videoEl) {
-    stop(); // ensure any previous stream is closed first
+    stop(videoEl); // ensure any previous stream is closed first
     try {
       stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode, width: { ideal: 720 }, height: { ideal: 1280 } },
@@ -263,11 +263,12 @@ const Camera = (() => {
     }
   }
 
-  function stop() {
+  function stop(videoEl) {
     if (stream) {
       stream.getTracks().forEach(t => t.stop());
       stream = null;
     }
+    if (videoEl) videoEl.srcObject = null;
   }
 
   async function flip(videoEl) {
@@ -496,13 +497,16 @@ const VideoExport = (() => {
   setInterval(updateClock, 30000);
 
   // ---------- Camera screen lifecycle ----------
+
   async function enterCameraScreen() {
     UI.renderCamera();
     camErrorEl.hidden = true;
     videoEl.style.display = 'block';
-    const ok = await Camera.start(videoEl);
+    await Camera.start(videoEl);
     syncMirrorClass();
-    if (!ok) {
+    // Use stream presence as ground truth — play() can reject on iOS even
+    // with a valid stream, so the boolean return value of start() is unreliable.
+    if (!Camera.isActive()) {
       camErrorEl.hidden = false;
       videoEl.style.display = 'none';
     }
@@ -545,7 +549,7 @@ const VideoExport = (() => {
   });
 
   async function goToSaveWithBlob(blob) {
-    Camera.stop();
+    Camera.stop(videoEl);
     // A blob can pass the "image/*" MIME check and still be something the
     // browser's <img> can't decode — HEIC from an iPhone's photo picker is
     // the common case. Confirm it actually decodes now, while we can still
@@ -788,7 +792,8 @@ const VideoExport = (() => {
   }
 
   function wireOnboarding() {
-    document.getElementById('obStartBtn').addEventListener('click', () => goObSlide('ob-s2'), { once: true });
+    document.getElementById('obStartBtn').addEventListener('click', () => goObSlide('ob-s1b'), { once: true });
+    document.getElementById('obProofNextBtn').addEventListener('click', () => goObSlide('ob-s2'), { once: true });
 
     const nameInput = document.getElementById('obNameInput');
     const nameBtn = document.getElementById('obNameNextBtn');
@@ -856,6 +861,7 @@ const VideoExport = (() => {
     await UI.renderHome();
     hideOnboarding();
     if (Store.getSettings().reminderEnabled) Reminders.start();
+    setTimeout(() => Tutorial.start(), 500);
   }
 
   // ---------- Boot ----------

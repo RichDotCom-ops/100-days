@@ -22,37 +22,58 @@
   <div class="notch"></div>
   <div class="screen-frame">
 
-    <div class="statusbar">
-      <span class="clock">9:41</span>
-      <div class="icons">
-        <svg width="18" height="12" viewBox="0 0 18 12" fill="none"><rect x="0" y="7" width="3" height="5" rx="0.5" fill="#fff"/><rect x="5" y="5" width="3" height="7" rx="0.5" fill="#fff"/><rect x="10" y="3" width="3" height="9" rx="0.5" fill="#fff"/><rect x="15" y="0" width="3" height="12" rx="0.5" fill="#fff"/></svg>
-        <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M8 10.5C6.7 10.5 5.5 10 4.6 9.1C4.4 8.9 4.4 8.6 4.6 8.4C6.5 6.5 9.5 6.5 11.4 8.4C11.6 8.6 11.6 8.9 11.4 9.1C10.5 10 9.3 10.5 8 10.5Z" fill="#fff"/><path d="M2.4 6.3C2.2 6.1 2.2 5.8 2.4 5.6C5.5 2.6 10.5 2.6 13.6 5.6C13.8 5.8 13.8 6.1 13.6 6.3C13.4 6.5 13.1 6.5 12.9 6.3C10.2 3.7 5.8 3.7 3.1 6.3C2.9 6.5 2.6 6.5 2.4 6.3Z" fill="#fff"/></svg>
-        <svg width="24" height="12" viewBox="0 0 24 12" fill="none"><rect x="0.5" y="0.5" width="21" height="11" rx="2.5" stroke="#fff"/><rect x="2" y="2" width="16" height="8" rx="1.5" fill="#fff"/><rect x="22.5" y="4" width="1.5" height="4" rx="0.7" fill="#fff"/></svg>
-      </div>
-    </div>
 
     <div class="screens">
 
       <!-- ============ HOME ============ -->
       <section class="screen active" id="screen-home">
         <div class="content">
-          <div class="topbar">
+
+          <!-- Topbar -->
+          <div class="home-topbar">
             <div>
               <p class="greeting" id="greetingText">Good morning,</p>
               <p class="greeting-name"><span id="greetingName">You</span> <span>👋</span></p>
             </div>
-            <div class="icon-btn" data-toast="No new notifications">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            <div class="home-topbar-icons">
+              <div class="icon-btn" data-toast="No new notifications">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+              </div>
+              <div class="icon-btn" data-goto="settings">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009.6 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3.5a2 2 0 010-4h.09A1.65 1.65 0 005 8.6a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9.4a1.65 1.65 0 001-1.51V2.5a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V8.6a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+              </div>
             </div>
           </div>
 
-          <div class="quote-card" id="homeQuote">
-            <div class="quote-mark">"</div>
-            <p class="quote-text" id="homeQuoteText"></p>
-            <p class="quote-author" id="homeQuoteAuthor" style="display:none;"></p>
+          <!-- Hero progress card -->
+          <div class="home-hero-card">
+            <div class="home-hero-glow"></div>
+            <div class="home-hero-left">
+              <div class="home-hero-eyebrow">Your Challenge</div>
+              <div class="home-hero-day-wrap">
+                <span class="home-hero-day-num" id="homeDayNum">0</span>
+                <span class="home-hero-day-of">/ <span id="homeGoal">100</span> days</span>
+              </div>
+              <div class="home-hero-streak">
+                <span class="home-hero-streak-fire">🔥</span>
+                <b id="homeStreak">0 days</b>
+                <span class="home-hero-streak-label">streak</span>
+              </div>
+            </div>
+            <div class="home-hero-right">
+              <div class="ring home-ring">
+                <svg width="88" height="88">
+                  <circle cx="44" cy="44" r="36" stroke="#1e1e1e" stroke-width="7" fill="none"/>
+                  <circle id="ringProgress" cx="44" cy="44" r="36" stroke="#8FD13F" stroke-width="7" fill="none" stroke-linecap="round" stroke-dasharray="226.2" stroke-dashoffset="226.2"/>
+                </svg>
+                <div class="pct" id="homePct">0%</div>
+              </div>
+              <div class="home-ring-label">Complete</div>
+            </div>
           </div>
 
-          <div class="section-head" style="margin-top:14px;">
+          <!-- Recent Days -->
+          <div class="section-head" style="margin-top:20px;">
             <h3>Recent Days</h3>
             <a data-goto="timeline">See All</a>
           </div>
@@ -60,28 +81,17 @@
             <div class="empty-hint">No entries yet — tap + to take your first photo</div>
           </div>
 
-          <div class="card day-progress-card">
-            <div>
-              <p class="day-num">Day</p>
-              <p class="day-big" id="homeDayNum">1</p>
-              <p class="of">of <span id="homeGoal">100</span></p>
-            </div>
-            <div style="display:flex;flex-direction:column;align-items:center;">
-              <div class="ring">
-                <svg width="64" height="64">
-                  <circle cx="32" cy="32" r="27" stroke="#2a2a2a" stroke-width="6" fill="none"/>
-                  <circle id="ringProgress" cx="32" cy="32" r="27" stroke="#8FD13F" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="169.6" stroke-dashoffset="169.6"/>
-                </svg>
-                <div class="pct" id="homePct">0%</div>
-              </div>
-              <div class="label">Completed</div>
-            </div>
+          <!-- Daily quote -->
+          <div class="quote-card" id="homeQuote">
+            <div class="quote-mark">"</div>
+            <p class="quote-text" id="homeQuoteText"></p>
+            <p class="quote-author" id="homeQuoteAuthor" style="display:none;"></p>
           </div>
 
-          <div class="streak-row"><span>🔥</span> Current Streak &nbsp;<b id="homeStreak">0 days</b></div>
-
+          <!-- Calendar -->
           <div id="homeCalendar"></div>
 
+          <!-- First photo CTA (shown only when 0 entries) -->
           <div class="first-photo-cta" id="firstPhotoCta" style="display:none;">
             <div class="fpc-icon">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7l1.5-3h5L16 7"/><circle cx="12" cy="13.5" r="3.5"/></svg>
@@ -235,7 +245,10 @@
           </div>
 
           <div id="comparisonBody">
-            <div class="empty-hint" id="comparisonEmpty">Save at least 2 days to compare progress</div>
+            <div id="comparisonEmpty" class="comp-empty-state">
+              <img src="Beofreandafter.png" alt="Example transformation" class="comp-example-img">
+              <p class="comp-empty-label">Save at least 2 days to compare your progress</p>
+            </div>
           </div>
         </div>
       </section>
@@ -371,6 +384,7 @@
 
     <div class="toast" id="toast"></div>
 
+
     <!-- Pro upgrade sheet -->
     <div id="proModal" class="pro-modal">
       <div class="pro-sheet">
@@ -447,6 +461,20 @@
         <button class="btn-primary ob-btn-anim" id="obStartBtn">Get Started</button>
       </div>
 
+      <!-- Slide 1b: Real user transformations -->
+      <div class="ob-slide ob-hidden" id="ob-s1b">
+        <div class="ob-proof-wrap">
+          <div class="ob-proof-label">✦ Real Results</div>
+          <h2 class="ob-proof-heading">Users like you,<br>transformed.</h2>
+          <p class="ob-proof-sub">One photo a day. Watch yourself change.</p>
+          <div class="ob-proof-images">
+            <img src="beforeandafter2.png" alt="User transformation" class="ob-proof-img">
+            <img src="Beofreandafter.png" alt="User transformation" class="ob-proof-img">
+          </div>
+        </div>
+        <button class="btn-primary" id="obProofNextBtn">Start My Journey →</button>
+      </div>
+
       <!-- Slide 2: Name -->
       <div class="ob-slide ob-hidden" id="ob-s2">
         <div class="ob-q-wrap">
@@ -462,6 +490,7 @@
         <div class="ob-q-wrap">
           <div class="ob-step-label">Step 2 of 2</div>
           <h2 class="ob-heading">How long is your<br>challenge?</h2>
+          <p class="ob-sub-desc">This app tracks your body transformation — you'll take one progress photo per day and watch yourself change over time.</p>
           <div class="goal-options" id="ob-goal-opts">
             <div class="goal-opt" data-goal="30">30 Days</div>
             <div class="goal-opt" data-goal="60">60 Days</div>
@@ -492,6 +521,7 @@
   </div>
 </div>
 
+<script src="js/tutorial.js"></script>
 <script src="js/screen.js"></script>
 <script src="js/main.js"></script>
 <script>

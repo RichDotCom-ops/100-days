@@ -179,7 +179,7 @@ const UI = (() => {
     const q = QUOTES[Math.floor(Date.now() / 86400000) % QUOTES.length];
     document.getElementById('homeQuoteText').textContent = q.text;
 
-    const circumference = 169.6;
+    const circumference = 226.2;
     const offset = circumference - (progress.pct / 100) * circumference;
     document.getElementById('ringProgress').style.strokeDashoffset = offset;
 
@@ -309,7 +309,7 @@ const UI = (() => {
     const entries = Store.getEntries();
     const body = document.getElementById('comparisonBody');
     if (entries.length < 2) {
-      body.innerHTML = `<div class="empty-hint" id="comparisonEmpty">Save at least 2 days to compare progress</div>`;
+      body.innerHTML = `<div id="comparisonEmpty" class="comp-empty-state"><img src="Beofreandafter.png" alt="Example transformation" class="comp-example-img"><p class="comp-empty-label">Save at least 2 days to compare your progress</p></div>`;
       return;
     }
     const first = entries[0];
