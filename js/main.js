@@ -763,6 +763,7 @@ const VideoExport = (() => {
     else if (name === 'settings') UI.renderSettings();
     else if (name === 'reminder') UI.renderReminderScreen();
     else if (name === 'goal-edit') UI.renderGoalScreen();
+    else if (name === 'about') {}  // static screen, nothing to render
   });
 
   // ---------- Onboarding ----------
