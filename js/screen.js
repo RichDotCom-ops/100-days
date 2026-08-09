@@ -183,8 +183,6 @@ const UI = (() => {
     const offset = circumference - (progress.pct / 100) * circumference;
     document.getElementById('ringProgress').style.strokeDashoffset = offset;
 
-    const firstPhotoCta = document.getElementById('firstPhotoCta');
-    firstPhotoCta.style.display = entries.length === 0 ? 'flex' : 'none';
 
     document.getElementById('homeCalendar').innerHTML = buildCalendar(entries);
     const calEl = document.getElementById('homeCalendar');

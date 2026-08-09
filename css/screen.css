@@ -305,22 +305,6 @@
 .cal-legend{ display:flex; align-items:center; gap:10px; margin-top:6px; padding-top:6px; border-top:1px solid #181818; }
 .cal-leg-lbl{ font-size:9px; color:#2a2a2a; margin-right:8px; }
 
-/* First-photo CTA — shown when user has no entries yet */
-.first-photo-cta{
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:12px; margin-top:20px; padding:32px 20px;
-  background:var(--surface); border:1px solid var(--border); border-radius:22px;
-  text-align:center;
-}
-.fpc-icon{ color:var(--muted-2); }
-.fpc-title{ font-size:17px; font-weight:700; margin:0; }
-.fpc-sub{ font-size:13px; color:var(--muted); margin:0; line-height:1.5; }
-.fpc-btn{
-  display:flex; align-items:center; gap:8px;
-  background:var(--accent); color:#1a0010; font-size:14px; font-weight:700;
-  padding:13px 22px; border-radius:14px; cursor:pointer; margin-top:4px;
-}
-.fpc-btn:active{ filter:brightness(.92); }
 
 /* Quote card */
 .quote-card{
@@ -595,6 +579,49 @@
   background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:16px; font-size:15px; font-weight:600; cursor:pointer;
 }
 .goal-opt.selected{border-color:var(--accent); background:var(--accent-dim); color:var(--accent);}
+
+/* ================= VIDEO EXPORT ================= */
+.vx-preview-row{
+  display:flex; align-items:center; justify-content:center;
+  gap:14px; margin:20px 0 16px;
+}
+.vx-thumb{
+  width:120px; height:160px; border-radius:16px;
+  background:var(--surface) center/cover no-repeat;
+  border:1px solid var(--border); flex-shrink:0;
+}
+.vx-arrow{ color:var(--muted-2); flex-shrink:0; }
+
+.vx-stats-row{
+  display:flex; align-items:center; justify-content:center;
+  gap:0; background:var(--surface); border:1px solid var(--border);
+  border-radius:16px; padding:14px 0; margin-bottom:20px;
+}
+.vx-stat{ display:flex; flex-direction:column; align-items:center; gap:3px; flex:1; }
+.vx-stat-num{ font-size:22px; font-weight:800; color:#fff; }
+.vx-stat-label{ font-size:10px; color:var(--muted-2); text-transform:uppercase; letter-spacing:.06em; }
+.vx-stat-div{ width:1px; height:36px; background:var(--border); }
+
+.vx-speed-label{ font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--muted-2); margin-bottom:8px; }
+.vx-speed-row{ display:flex; gap:8px; margin-bottom:24px; }
+.vx-speed-opt{
+  flex:1; background:var(--surface); border:1px solid var(--border);
+  border-radius:12px; padding:10px 8px; text-align:center; cursor:pointer;
+  font-size:12px; font-weight:700; color:var(--muted); transition:all .15s;
+  display:flex; flex-direction:column; gap:3px;
+}
+.vx-speed-opt span{ font-size:10px; font-weight:400; color:var(--muted-2); }
+.vx-speed-opt.selected{ border-color:var(--accent); background:var(--accent-dim); color:var(--accent); }
+.vx-speed-opt.selected span{ color:rgba(247,37,133,.6); }
+
+.vx-progress-wrap{ margin-bottom:20px; }
+.vx-progress-bar{ height:6px; background:var(--surface-2); border-radius:6px; overflow:hidden; margin-bottom:10px; }
+.vx-progress-fill{ height:100%; background:var(--accent); border-radius:6px; transition:width .3s ease; width:0%; }
+.vx-progress-label{ font-size:13px; color:var(--muted); text-align:center; margin:0; }
+
+.vx-empty{ background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:24px; text-align:center; }
+.vx-empty p{ font-size:13px; color:var(--muted); margin:0; line-height:1.5; }
+.vx-cta{ margin-top:4px; }
 
 /* ================= ABOUT ================= */
 .about-hero{

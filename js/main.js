@@ -697,9 +697,7 @@ const VideoExport = (() => {
     Router.goto('settings');
   });
 
-  document.getElementById('exportVideoBtn').addEventListener('click', () => {
-    document.getElementById('proModal').classList.add('open');
-  });
+  // exportVideoBtn now navigates via data-goto="video-export" (declarative)
 
   function closeProModal() {
     const m = document.getElementById('proModal');
@@ -763,7 +761,108 @@ const VideoExport = (() => {
     else if (name === 'settings') UI.renderSettings();
     else if (name === 'reminder') UI.renderReminderScreen();
     else if (name === 'goal-edit') UI.renderGoalScreen();
+    else if (name === 'video-export') renderVideoExportScreen();
     else if (name === 'about') {}  // static screen, nothing to render
+  });
+
+  // ---------- Video Export ----------
+  function renderVideoExportScreen() {
+    const entries = Store.getEntries();
+    const empty   = document.getElementById('vxEmpty');
+    const preview = document.getElementById('vxPreviewRow');
+    const stats   = document.getElementById('vxStatsRow');
+    const cta     = document.getElementById('vxCta');
+
+    if (entries.length < 2) {
+      empty.style.display   = 'block';
+      preview.style.display = 'none';
+      stats.style.display   = 'none';
+      cta.style.display     = 'none';
+      return;
+    }
+
+    empty.style.display   = 'none';
+    preview.style.display = 'flex';
+    stats.style.display   = 'flex';
+    cta.style.display     = 'block';
+
+    // Load first & last thumbnails
+    const first = entries[0];
+    const last  = entries[entries.length - 1];
+    DB.getPhotoUrl(first.photoId).then(url => {
+      const el = document.getElementById('vxThumbFirst');
+      el.style.backgroundImage = url ? `url(${url})` : 'none';
+    });
+    DB.getPhotoUrl(last.photoId).then(url => {
+      const el = document.getElementById('vxThumbLast');
+      el.style.backgroundImage = url ? `url(${url})` : 'none';
+    });
+
+    // Stats
+    document.getElementById('vxPhotoCount').textContent = entries.length;
+    document.getElementById('vxDaySpan').textContent    = last.dayNumber;
+    updateDurationDisplay(entries.length);
+
+    // Speed picker
+    document.querySelectorAll('.vx-speed-opt').forEach(opt => {
+      opt.addEventListener('click', () => {
+        document.querySelectorAll('.vx-speed-opt').forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        const fps = parseFloat(opt.dataset.fps);
+        VideoExport.setSpeed(fps);
+        updateDurationDisplay(entries.length);
+      });
+    });
+  }
+
+  function updateDurationDisplay(count) {
+    const secs = VideoExport.estimateDuration(count);
+    document.getElementById('vxDuration').textContent =
+      secs >= 60 ? `${Math.floor(secs/60)}m ${secs%60}s` : `${secs}s`;
+  }
+
+  document.getElementById('vxExportBtn').addEventListener('click', async () => {
+    const entries = Store.getEntries();
+    const btn     = document.getElementById('vxExportBtn');
+    const wrap    = document.getElementById('vxProgressWrap');
+    const fill    = document.getElementById('vxProgressFill');
+    const label   = document.getElementById('vxProgressLabel');
+    const cta     = document.getElementById('vxCta');
+
+    btn.disabled       = true;
+    wrap.style.display = 'block';
+    cta.style.display  = 'none';
+    fill.style.width   = '0%';
+    label.textContent  = 'Building your video…';
+
+    await VideoExport.build(entries, DB.getPhotoUrl.bind(DB), {
+      onProgress: pct => {
+        fill.style.width  = `${Math.round(pct * 100)}%`;
+        label.textContent = `Processing… ${Math.round(pct * 100)}%`;
+      },
+      onDone: (blobUrl, ext) => {
+        fill.style.width  = '100%';
+        label.textContent = 'Done! Saving…';
+        // Trigger download
+        const a = document.createElement('a');
+        a.href     = blobUrl;
+        a.download = `transformation-${new Date().toISOString().slice(0,10)}.${ext}`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+        label.textContent = '✓ Video saved to your downloads!';
+        btn.disabled      = false;
+        cta.style.display = 'block';
+        btn.textContent   = 'Export Again';
+      },
+      onError: msg => {
+        wrap.style.display = 'none';
+        cta.style.display  = 'block';
+        btn.disabled       = false;
+        UI.toast(msg);
+      },
+    });
   });
 
   // ---------- Onboarding ----------

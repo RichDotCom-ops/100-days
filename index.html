@@ -91,18 +91,6 @@
           <!-- Calendar -->
           <div id="homeCalendar"></div>
 
-          <!-- First photo CTA (shown only when 0 entries) -->
-          <div class="first-photo-cta" id="firstPhotoCta" style="display:none;">
-            <div class="fpc-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7l1.5-3h5L16 7"/><circle cx="12" cy="13.5" r="3.5"/></svg>
-            </div>
-            <h3 class="fpc-title">Start your transformation</h3>
-            <p class="fpc-sub">Take your first progress photo to begin tracking your journey.</p>
-            <div class="fpc-btn" data-goto="camera">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
-              Take First Photo
-            </div>
-          </div>
 
         </div>
         <nav class="bottomnav">
@@ -306,7 +294,7 @@
               </div>
               <div class="set-label">Start Over</div>
             </div>
-            <div class="set-row" id="exportVideoBtn">
+            <div class="set-row" id="exportVideoBtn" data-goto="video-export">
               <div class="set-icon" style="background:#6b1ad8;">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="15" height="10" rx="2"/><path d="M17 9l5-2v10l-5-2V9z"/></svg>
               </div>
@@ -372,6 +360,62 @@
           </div>
           <div style="margin-top:auto; padding-top:40px;">
             <button class="btn-primary" id="saveGoalBtn">Save</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ VIDEO EXPORT ============ -->
+      <section class="screen" id="screen-video-export">
+        <div class="content no-tab">
+          <div class="topbar">
+            <div class="icon-btn" data-goto="settings">‹</div>
+            <h1 style="font-size:19px;">Transformation Video</h1>
+            <div style="width:38px;"></div>
+          </div>
+
+          <!-- Preview row: first & last photo -->
+          <div class="vx-preview-row" id="vxPreviewRow">
+            <div class="vx-thumb" id="vxThumbFirst"></div>
+            <div class="vx-arrow">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </div>
+            <div class="vx-thumb" id="vxThumbLast"></div>
+          </div>
+
+          <!-- Stats -->
+          <div class="vx-stats-row" id="vxStatsRow">
+            <div class="vx-stat"><span class="vx-stat-num" id="vxPhotoCount">0</span><span class="vx-stat-label">Photos</span></div>
+            <div class="vx-stat-div"></div>
+            <div class="vx-stat"><span class="vx-stat-num" id="vxDaySpan">0</span><span class="vx-stat-label">Days</span></div>
+            <div class="vx-stat-div"></div>
+            <div class="vx-stat"><span class="vx-stat-num" id="vxDuration">0s</span><span class="vx-stat-label">Video length</span></div>
+          </div>
+
+          <!-- Speed picker -->
+          <div class="vx-speed-label">Speed</div>
+          <div class="vx-speed-row" id="vxSpeedRow">
+            <div class="vx-speed-opt selected" data-fps="0.5">Slow<span>0.5s/photo</span></div>
+            <div class="vx-speed-opt" data-fps="0.25">Normal<span>0.25s/photo</span></div>
+            <div class="vx-speed-opt" data-fps="0.1">Fast<span>0.1s/photo</span></div>
+          </div>
+
+          <!-- Progress (hidden until export starts) -->
+          <div class="vx-progress-wrap" id="vxProgressWrap" style="display:none;">
+            <div class="vx-progress-bar"><div class="vx-progress-fill" id="vxProgressFill"></div></div>
+            <p class="vx-progress-label" id="vxProgressLabel">Building your video…</p>
+          </div>
+
+          <!-- No photos state -->
+          <div class="vx-empty" id="vxEmpty" style="display:none;">
+            <p>You need at least 2 photos to create a transformation video.</p>
+          </div>
+
+          <!-- CTA -->
+          <div class="vx-cta" id="vxCta">
+            <button class="btn-primary" id="vxExportBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a0010" stroke-width="2.5" stroke-linecap="round"><rect x="2" y="7" width="15" height="10" rx="2"/><path d="M17 9l5-2v10l-5-2V9z"/></svg>
+              Create Video
+            </button>
           </div>
         </div>
       </section>
@@ -585,6 +629,7 @@
   </div>
 </div>
 
+<script src="js/videoExport.js"></script>
 <script src="js/tutorial.js"></script>
 <script src="js/screen.js"></script>
 <script src="js/main.js"></script>
