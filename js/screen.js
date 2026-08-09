@@ -42,8 +42,11 @@ const Router = (() => {
     document.querySelectorAll(`.navitem[data-nav="${name}"]`).forEach(n => n.classList.add('active'));
 
     current = name;
-    const gearVisibleOn = ['home', 'timeline'];
-    document.querySelector('.fab-settings').style.display = gearVisibleOn.includes(name) ? 'flex' : 'none';
+    const fabSettings = document.querySelector('.fab-settings');
+    if (fabSettings) {
+      const gearVisibleOn = ['home', 'timeline'];
+      fabSettings.style.display = gearVisibleOn.includes(name) ? 'flex' : 'none';
+    }
     listeners.forEach(fn => fn(name));
   }
 
@@ -192,6 +195,10 @@ const UI = (() => {
       if (cell) openDayDetail(cell.dataset.calDate, entries);
     };
     calEl.addEventListener('click', calClickHandler);
+
+    // Show/hide first-photo CTA
+    const firstPhotoCta = document.getElementById('firstPhotoCta');
+    if (firstPhotoCta) firstPhotoCta.style.display = entries.length === 0 ? 'flex' : 'none';
 
     // Recent days
     const recentRow = document.getElementById('recentRow');

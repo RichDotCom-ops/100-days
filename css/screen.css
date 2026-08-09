@@ -66,9 +66,27 @@
 .tut-next:active{ filter:brightness(.9); }
 
 /* ================= HOME ================= */
-#screen-home { overflow: hidden; }
+#screen-home { overflow-y: auto; }
 /* hide quote on home — saves vertical space for the calendar */
 #screen-home .quote-card { display: none; }
+
+/* First-photo CTA banner */
+.first-photo-cta{
+  display:flex; align-items:center; gap:12px;
+  background:linear-gradient(135deg,#1a0a2e,#0d1f0a);
+  border:1px solid rgba(143,209,63,.25);
+  border-radius:16px; padding:12px 14px; margin-top:12px;
+}
+.fpc-icon{ font-size:22px; flex-shrink:0; }
+.fpc-text{ flex:1; min-width:0; }
+.fpc-title{ font-size:13px; font-weight:700; color:#fff; }
+.fpc-sub{ font-size:11px; color:var(--muted); margin-top:1px; }
+.fpc-btn{
+  width:32px; height:32px; border-radius:50%; flex-shrink:0;
+  background:var(--accent); display:flex; align-items:center; justify-content:center;
+  color:#1a0010; cursor:pointer;
+}
+.fpc-btn:active{ filter:brightness(.85); }
 
 .greeting{font-size:13px;color:var(--muted); margin:0 0 2px 0;}
 .greeting-name{font-size:20px;font-weight:700;margin:0; display:flex; align-items:center; gap:6px;}
