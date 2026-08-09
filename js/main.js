@@ -872,6 +872,7 @@ const Reminders = (() => {
     } else {
       await UI.renderHome();
       if (settings.reminderEnabled) Reminders.start();
+      setTimeout(() => Tutorial.start(), 800);
     }
   })();
 })();

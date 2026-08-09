@@ -5,7 +5,7 @@
  * tooltip card. Completion is stored in localStorage so it never repeats.
  */
 const Tutorial = (() => {
-  const KEY = 'tut_v1_done';
+  const KEY = 'tut_v2_done';
   let currentStep = 0;
   let overlayEl = null;
 
