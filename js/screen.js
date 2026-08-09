@@ -12,7 +12,9 @@ const Router = (() => {
     comparison: 'screen-comparison',
     settings: 'screen-settings',
     reminder: 'screen-reminder',
-    'goal-edit': 'screen-goal-edit'
+    'goal-edit': 'screen-goal-edit',
+    'video-export': 'screen-video-export',
+    about: 'screen-about'
   };
 
   let current = 'home';
