@@ -179,7 +179,7 @@ const UI = (() => {
     const q = QUOTES[Math.floor(Date.now() / 86400000) % QUOTES.length];
     document.getElementById('homeQuoteText').textContent = q.text;
 
-    const circumference = 226.2;
+    const circumference = 188.5;
     const offset = circumference - (progress.pct / 100) * circumference;
     document.getElementById('ringProgress').style.strokeDashoffset = offset;
 

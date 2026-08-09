@@ -51,7 +51,7 @@ button,a,[data-goto],[data-nav]{touch-action:manipulation;}
 @keyframes fadein{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:translateY(0)}}
 .screen::-webkit-scrollbar{display:none;}
 
-.content{padding:4px 20px 112px 20px; flex:1;}
+.content{padding:4px 20px 90px 20px; flex:1;}
 .content.no-tab{padding-bottom:24px;}
 
 .topbar{ display:flex;align-items:center;justify-content:space-between; padding:6px 0 14px 0; flex-shrink:0; }
@@ -65,7 +65,7 @@ button,a,[data-goto],[data-nav]{touch-action:manipulation;}
 /* ---------- Reusable primitives ---------- */
 .card{ background:var(--surface); border:1px solid var(--border); border-radius:22px; padding:18px; }
 
-.section-head{display:flex; align-items:center; justify-content:space-between; margin:20px 0 10px;}
+.section-head{display:flex; align-items:center; justify-content:space-between; margin:12px 0 8px;}
 .section-head h3{font-size:15px; margin:0; font-weight:700;}
 .section-head a{font-size:12px;color:var(--accent); text-decoration:none; font-weight:600; cursor:pointer;}
 .empty-hint{font-size:13px; color:var(--muted-2); padding:18px 4px; text-align:center;}
