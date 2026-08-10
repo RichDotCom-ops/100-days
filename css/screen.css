@@ -452,6 +452,17 @@
 .overview-row .num{font-size:14px;font-weight:700;}
 .overview-row .pct{font-size:13px;color:var(--accent); font-weight:700;}
 
+/* ---- Stats chart ---- */
+.stats-chart-card{ display:flex; flex-direction:column; gap:12px; }
+.stats-chart-item{
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:16px; padding:14px 14px 10px;
+}
+.stats-chart-header{ display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.stats-chart-label{ font-size:13px; font-weight:700; }
+.stats-chart-range{ font-size:11px; color:var(--muted); }
+.stats-chart-days{ display:flex; justify-content:space-between; font-size:10px; color:var(--muted-2); margin-top:4px; }
+
 .timeline{margin-top:18px; position:relative; padding-left:6px;}
 .timeline-item{ display:flex; align-items:center; gap:14px; position:relative; padding:12px 0; }
 .timeline-item .line{ position:absolute; left:9px; top:0; bottom:0; width:2px; background:var(--border); z-index:0; }

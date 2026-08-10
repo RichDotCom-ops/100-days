@@ -254,12 +254,83 @@ const UI = (() => {
     document.getElementById('statsToggleIcon').textContent = hasStats ? '−' : '+';
   }
 
+  function buildStatsChart(entries) {
+    const statKeys = [
+      { key: 'weight', label: 'Weight', unitKey: 'weightUnit' },
+      { key: 'waist',  label: 'Waist',  unitKey: 'measureUnit' },
+      { key: 'chest',  label: 'Chest',  unitKey: 'measureUnit' },
+      { key: 'hips',   label: 'Hips',   unitKey: 'measureUnit' },
+    ];
+
+    const charts = statKeys.map(({ key, label, unitKey }) => {
+      const points = entries
+        .filter(e => e.stats && e.stats[key])
+        .map(e => ({ day: e.dayNumber, val: parseFloat(e.stats[key]), unit: e.stats[unitKey] || '' }));
+      if (points.length < 2) return '';
+
+      const vals = points.map(p => p.val);
+      const min = Math.min(...vals);
+      const max = Math.max(...vals);
+      const range = max - min || 1;
+      const W = 280, H = 70, pad = 10;
+
+      const pts = points.map((p, i) => {
+        const x = pad + (i / (points.length - 1)) * (W - pad * 2);
+        const y = H - pad - ((p.val - min) / range) * (H - pad * 2);
+        return `${x},${y}`;
+      }).join(' ');
+
+      const firstPt = pts.split(' ')[0].split(',');
+      const lastPt = pts.split(' ').slice(-1)[0].split(',');
+      const diff = points[points.length - 1].val - points[0].val;
+      const diffLabel = (diff >= 0 ? '+' : '') + diff.toFixed(1);
+      const diffColor = key === 'weight' ? (diff <= 0 ? '#8FD13F' : '#e2564f') : (diff <= 0 ? '#8FD13F' : '#e2564f');
+      const unit = points[0].unit;
+
+      return `
+        <div class="stats-chart-item">
+          <div class="stats-chart-header">
+            <span class="stats-chart-label">${label}</span>
+            <span class="stats-chart-range">${min}${unit} → ${max}${unit} <span style="color:${diffColor};font-weight:700;">${diffLabel}${unit}</span></span>
+          </div>
+          <svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="grad-${key}" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.25"/>
+                <stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <polyline points="${pts} ${lastPt[0]},${H} ${firstPt[0]},${H}" fill="url(#grad-${key})" stroke="none"/>
+            <polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            ${points.map((p, i) => {
+              const x = pad + (i / (points.length - 1)) * (W - pad * 2);
+              const y = H - pad - ((p.val - min) / range) * (H - pad * 2);
+              return `<circle cx="${x}" cy="${y}" r="3" fill="var(--accent)"/>`;
+            }).join('')}
+          </svg>
+          <div class="stats-chart-days">
+            <span>Day ${points[0].day}</span><span>Day ${points[points.length-1].day}</span>
+          </div>
+        </div>`;
+    }).filter(Boolean).join('');
+
+    const section = document.getElementById('statsChartSection');
+    const card = document.getElementById('statsChartCard');
+    if (charts) {
+      section.style.display = 'block';
+      card.innerHTML = charts;
+    } else {
+      section.style.display = 'none';
+    }
+  }
+
   async function renderTimeline() {
     const entries = Store.getEntries();
     const progress = Store.computeProgress();
     document.getElementById('tlOverviewNum').textContent = `${entries.length} / ${progress.goal} days`;
     document.getElementById('tlOverviewPct').textContent = progress.pct + '%';
     document.getElementById('tlOverviewFill').style.width = progress.pct + '%';
+    buildStatsChart(entries);
 
     const list = document.getElementById('timelineList');
     if (entries.length === 0) {

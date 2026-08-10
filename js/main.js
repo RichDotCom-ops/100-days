@@ -574,19 +574,39 @@ const Reminders = (() => {
   });
   document.getElementById('dayModalClose').addEventListener('click', closeDayModal);
 
-  document.getElementById('dayModalDelete').addEventListener('click', async () => {
-    const entryId = document.getElementById('dayModal').dataset.entryId;
+  // Delete confirmation sheet
+  function openDeleteConfirm(entryId) {
+    const m = document.getElementById('deleteConfirmModal');
+    m.dataset.entryId = entryId;
+    m.classList.add('open');
+  }
+  function closeDeleteConfirm() {
+    const m = document.getElementById('deleteConfirmModal');
+    m.classList.add('closing');
+    setTimeout(() => m.classList.remove('open', 'closing'), 280);
+  }
+  document.getElementById('deleteConfirmModal').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) closeDeleteConfirm();
+  });
+  document.getElementById('deleteConfirmCancel').addEventListener('click', closeDeleteConfirm);
+  document.getElementById('deleteConfirmBtn').addEventListener('click', async () => {
+    const entryId = document.getElementById('deleteConfirmModal').dataset.entryId;
     if (!entryId) return;
-    const confirmed = confirm('Delete this day\'s photo? This cannot be undone.');
-    if (!confirmed) return;
     const entry = Store.getEntries().find(e => e.id === entryId);
     if (!entry) return;
     await DB.deletePhoto(entry.photoId);
     DB.clearUrlCache();
     Store.deleteEntry(entryId);
+    closeDeleteConfirm();
     closeDayModal();
     UI.toast('Day deleted');
     await UI.renderHome();
+  });
+
+  document.getElementById('dayModalDelete').addEventListener('click', () => {
+    const entryId = document.getElementById('dayModal').dataset.entryId;
+    if (!entryId) return;
+    openDeleteConfirm(entryId);
   });
 
   // ---------- Settings ----------
