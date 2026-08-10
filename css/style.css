@@ -46,7 +46,7 @@ button,a,[data-goto],[data-nav]{touch-action:manipulation;}
 
 /* ---------- Screen containers (shared by every screen) ---------- */
 .screens{position:relative; flex:1; min-height:0;}
-.screen{ position:absolute; inset:0; display:none; flex-direction:column; overflow-y:auto; padding-bottom:8px; animation:fadein .18s ease; -webkit-overflow-scrolling:touch; }
+.screen{ position:absolute; inset:0; display:none; flex-direction:column; overflow-y:auto; padding-bottom:8px; animation:fadein .18s ease; }
 .screen.active{display:flex;}
 @keyframes fadein{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:translateY(0)}}
 .screen::-webkit-scrollbar{display:none;}
@@ -56,14 +56,14 @@ button,a,[data-goto],[data-nav]{touch-action:manipulation;}
 
 .topbar{ display:flex;align-items:center;justify-content:space-between; padding:6px 0 14px 0; flex-shrink:0; }
 .topbar h1{font-size:22px; margin:0; font-weight:700;}
-.icon-btn{ width:38px;height:38px;border-radius:50%;background:var(--surface); display:flex;align-items:center;justify-content:center; border:1px solid var(--border); color:#fff; cursor:pointer; flex-shrink:0; }
+.icon-btn{ width:44px;height:44px;border-radius:50%;background:var(--surface); display:flex;align-items:center;justify-content:center; border:1px solid var(--border); color:#fff; cursor:pointer; flex-shrink:0; }
 .icon-btn:active{background:var(--surface-2);}
 .center-title{text-align:center;flex:1;}
 .center-title h1{font-size:17px; color:#fff;}
 .center-title .sub{font-size:11px;color:var(--muted);}
 
 /* ---------- Reusable primitives ---------- */
-.card{ background:var(--surface); border:1px solid var(--border); border-radius:22px; padding:18px; }
+.card{ background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:18px; }
 
 .section-head{display:flex; align-items:center; justify-content:space-between; margin:12px 0 8px;}
 .section-head h3{font-size:15px; margin:0; font-weight:700;}

@@ -382,18 +382,6 @@ const Reminders = (() => {
     viewfinderEl.classList.toggle('mirror', Camera.getFacingMode() === 'user');
   }
 
-  // ---------- Clock ----------
-  function updateClock() {
-    const now = new Date();
-    let h = now.getHours();
-    const m = now.getMinutes();
-    h = h % 12; if (h === 0) h = 12;
-    document.querySelectorAll('.clock').forEach(el => {
-      el.textContent = `${h}:${String(m).padStart(2, '0')}`;
-    });
-  }
-  updateClock();
-  setInterval(updateClock, 30000);
 
   // ---------- Camera screen lifecycle ----------
 
@@ -750,7 +738,8 @@ const Reminders = (() => {
         btn.textContent   = 'Export Again';
 
         const filename = `transformation-${new Date().toISOString().slice(0,10)}.${ext}`;
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        const isIOS = (/iPad|iPhone|iPod/.test(navigator.userAgent) ||
+          (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) && !window.MSStream;
 
         if (isIOS) {
           label.textContent = 'Video ready! Tap below to save it.';

@@ -406,7 +406,7 @@
 /* ================= CAMERA ================= */
 .camera-screen{background:#000;}
 .camera-topbar{display:flex; align-items:center; justify-content:space-between; padding:14px 20px;}
-.align-pill{ position:absolute; top:66px; left:50%; transform:translateX(-50%); background:rgba(247,37,133,.15); border:1px solid var(--accent); color:var(--accent); font-size:12px; font-weight:600; padding:6px 14px; border-radius:20px; display:flex; align-items:center; gap:6px; z-index:5; }
+.align-pill{ position:absolute; top:calc(66px + env(safe-area-inset-top, 0px)); left:50%; transform:translateX(-50%); background:rgba(247,37,133,.15); border:1px solid var(--accent); color:var(--accent); font-size:12px; font-weight:600; padding:6px 14px; border-radius:20px; display:flex; align-items:center; gap:6px; z-index:5; }
 .viewfinder{ position:relative; flex:1; margin:0 14px; border-radius:26px; overflow:hidden; background:#0e0e0e; border:1px solid #222; }
 .viewfinder video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;}
 .viewfinder .ghost{ position:absolute; inset:0; opacity:.35; filter:grayscale(1) contrast(1.1); pointer-events:none; z-index:2; }
@@ -428,7 +428,7 @@
 }
 .cam-caption{font-size:11px;color:#ddd; text-align:center; margin-top:6px;}
 .shutter-row{display:flex; align-items:center; justify-content:center; gap:40px; padding:22px 20px 6px;}
-.shutter{ width:70px;height:70px;border-radius:50%; background:#fff; border:5px solid #444; cursor:pointer; }
+.shutter{ width:72px;height:72px;border-radius:50%; background:#fff; border:4px solid rgba(255,255,255,.35); cursor:pointer; -webkit-appearance:none; appearance:none; outline:3px solid #fff; outline-offset:3px; }
 .shutter:active{transform:scale(.95);}
 .upload-photos-btn{
   display:flex; align-items:center; justify-content:center; gap:8px;
@@ -498,14 +498,16 @@
 .zoom-slider::-webkit-slider-thumb{-webkit-appearance:none; appearance:none; width:18px;height:18px;border-radius:50%; background:var(--accent); cursor:pointer;}
 .cmp-picker-row{display:flex; gap:10px; margin-top:14px;}
 .cmp-picker{flex:1; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:10px; font-size:12px; color:#fff;}
-.cmp-picker select{width:100%; background:transparent; color:#fff; border:none; outline:none; font-size:16px; font-weight:700;}
+.cmp-picker select{width:100%; background:transparent; color:#fff; border:none; outline:none; font-size:16px; font-weight:700; -webkit-appearance:none; appearance:none;}
 
 /* ================= REMINDER TIME ================= */
 .time-input-wrap{display:flex; justify-content:center; margin-top:50px;}
 .time-input{
-  background:var(--surface); border:1px solid var(--border); color:#fff; font-size:28px; font-weight:700;
-  border-radius:14px; padding:14px 20px; outline:none; font-family:inherit;
-  color-scheme:dark;
+  background:var(--surface); border:1px solid var(--border); color:#fff; font-size:16px; font-weight:700;
+  border-radius:12px; padding:14px 20px; outline:none; font-family:inherit;
+  color-scheme:dark; -webkit-appearance:none; appearance:none;
+  /* Scale up visually without triggering iOS auto-zoom (needs font-size>=16px) */
+  transform:scale(1.6); transform-origin:center;
 }
 .align-desc{padding:0 20px; font-size:12px; color:var(--muted); margin-top:16px;}
 
