@@ -135,6 +135,18 @@ button,a,[data-goto],[data-nav]{touch-action:manipulation;}
   .landscape-block{ display:flex; }
 }
 
+/* Offline banner */
+.offline-block{
+  display:none;
+  position:fixed; inset:0; z-index:9998;
+  background:#0a0a0a; color:#fff;
+  flex-direction:column; align-items:center; justify-content:center; gap:16px;
+  text-align:center;
+}
+.offline-block p{ margin:0; font-size:17px; font-weight:700; line-height:1.5; }
+.offline-block p span{ font-size:13px; font-weight:400; color:var(--muted); }
+.offline-block.visible{ display:flex; }
+
 @media (max-width:500px){
   body{padding:0; background:#000; align-items:stretch; justify-content:stretch;}
   .phone{

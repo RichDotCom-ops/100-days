@@ -1,4 +1,4 @@
-const CACHE = 'transform-v3';
+const CACHE = 'transform-v4';
 const BASE = '/100-days';
 const SHELL = [
   BASE + '/',
@@ -31,12 +31,27 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
+
+  const isNavigation = e.request.mode === 'navigate';
+
   e.respondWith(
-    caches.match(e.request).then(cached => cached || fetch(e.request).then(res => {
-      const clone = res.clone();
-      caches.open(CACHE).then(c => c.put(e.request, clone));
-      return res;
-    }))
+    caches.match(e.request, { ignoreSearch: true }).then(cached => {
+      if (cached) return cached;
+
+      return fetch(e.request).then(res => {
+        const clone = res.clone();
+        caches.open(CACHE).then(c => c.put(e.request, clone));
+        return res;
+      }).catch(() => {
+        // Offline fallback: serve cached shell for navigation requests
+        if (isNavigation) {
+          return caches.match(BASE + '/index.html')
+              || caches.match(BASE + '/');
+        }
+        // For other requests (images, etc.) just fail silently
+        return new Response('', { status: 503 });
+      });
+    })
   );
 });
 
