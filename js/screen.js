@@ -403,6 +403,8 @@ const UI = (() => {
     const entry = entries.find(e => new Date(e.date).toDateString() === dateStr);
     if (!entry) return;
     const modal = document.getElementById('dayModal');
+    // Store entry ID on the modal so the delete button in main.js can find it
+    modal.dataset.entryId = entry.id;
     document.getElementById('dayModalTitle').textContent = `Day ${entry.dayNumber}`;
     document.getElementById('dayModalDate').textContent = formatDate(entry.date);
     const noteEl = document.getElementById('dayModalNote');

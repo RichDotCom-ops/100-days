@@ -282,6 +282,14 @@
   display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--muted); flex-shrink:0;
 }
 .day-modal-note{ font-size:13px; color:var(--muted); margin:10px 0 0; font-style:italic; line-height:1.5; }
+.day-modal-delete{
+  width:100%; margin-top:16px; padding:13px;
+  background:transparent; border:1px solid rgba(226,86,79,.35);
+  border-radius:12px; color:var(--danger); font-size:14px; font-weight:600;
+  font-family:inherit; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+}
+.day-modal-delete:active{ background:rgba(226,86,79,.1); }
 
 /* Tappable calendar cells */
 .cal-cell[data-cal-date]{ cursor:pointer; }

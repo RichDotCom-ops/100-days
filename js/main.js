@@ -162,6 +162,10 @@ const Store = (() => {
     return { entry, replacedPhotoId: null, wasReplace: false };
   }
 
+  function deleteEntry(id) {
+    saveEntries(getEntries().filter(e => e.id !== id));
+  }
+
   function deleteAllEntries() {
     saveEntries([]);
   }
@@ -228,6 +232,7 @@ const Store = (() => {
     getEntries,
     upsertEntry,
     getTodayEntry,
+    deleteEntry,
     deleteAllEntries,
     getSettings,
     saveSettings,
@@ -568,6 +573,21 @@ const Reminders = (() => {
     if (e.target === e.currentTarget) closeDayModal();
   });
   document.getElementById('dayModalClose').addEventListener('click', closeDayModal);
+
+  document.getElementById('dayModalDelete').addEventListener('click', async () => {
+    const entryId = document.getElementById('dayModal').dataset.entryId;
+    if (!entryId) return;
+    const confirmed = confirm('Delete this day\'s photo? This cannot be undone.');
+    if (!confirmed) return;
+    const entry = Store.getEntries().find(e => e.id === entryId);
+    if (!entry) return;
+    await DB.deletePhoto(entry.photoId);
+    DB.clearUrlCache();
+    Store.deleteEntry(entryId);
+    closeDayModal();
+    UI.toast('Day deleted');
+    await UI.renderHome();
+  });
 
   // ---------- Settings ----------
   document.getElementById('reminderToggleRow').addEventListener('click', async (e) => {
