@@ -222,23 +222,6 @@ const UI = (() => {
     const dayLabel = todayEntry ? todayEntry.dayNumber : entries.length + 1;
     document.getElementById('camDayTitle').textContent = `Day ${dayLabel}`;
     document.getElementById('camDate').textContent = new Date().toLocaleDateString(undefined,{ month:'short', day:'numeric', year:'numeric' });
-
-    // Ghost overlay should always be the most recent *previous* day, even
-    // when today's own photo already exists and this is a retake — you
-    // want to align with yesterday's pose, not the shot you're replacing.
-    const ghost = document.getElementById('ghostPhoto');
-    const alignPill = document.getElementById('alignPill');
-    const priorEntries = todayEntry ? entries.slice(0, -1) : entries;
-    const ghostSource = priorEntries[priorEntries.length - 1];
-    if (ghostSource) {
-      DB.getPhotoUrl(ghostSource.photoId).then(url => {
-        ghost.innerHTML = url ? `<img src="${url}" data-photo-fallback="hide">` : '';
-      });
-      alignPill.style.display = 'flex';
-    } else {
-      ghost.innerHTML = '';
-      alignPill.style.display = 'none';
-    }
   }
 
   function renderSave(photoUrl) {

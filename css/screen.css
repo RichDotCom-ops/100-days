@@ -406,16 +406,9 @@
 /* ================= CAMERA ================= */
 .camera-screen{background:#000;}
 .camera-topbar{display:flex; align-items:center; justify-content:space-between; padding:14px 20px;}
-.align-pill{ position:absolute; top:calc(66px + env(safe-area-inset-top, 0px)); left:50%; transform:translateX(-50%); background:rgba(247,37,133,.15); border:1px solid var(--accent); color:var(--accent); font-size:12px; font-weight:600; padding:6px 14px; border-radius:20px; display:flex; align-items:center; gap:6px; z-index:5; }
 .viewfinder{ position:relative; flex:1; margin:0 14px; border-radius:26px; overflow:hidden; background:#0e0e0e; border:1px solid #222; }
 .viewfinder video{position:absolute; inset:0; width:100%; height:100%; object-fit:cover;}
-.viewfinder .ghost{ position:absolute; inset:0; opacity:.35; filter:grayscale(1) contrast(1.1); pointer-events:none; z-index:2; }
-.viewfinder .ghost img{width:100%;height:100%;object-fit:cover;}
-/* Front camera preview is mirrored for a natural "mirror" feel — the saved
-   photo itself is un-mirrored in main.js. The ghost overlay of a past
-   photo must be mirrored to match, or alignment will look backwards. */
 .viewfinder.mirror video{transform:scaleX(-1);}
-.viewfinder.mirror .ghost img{transform:scaleX(-1);}
 .cam-error{
   position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
   background:#0e0e0e; color:var(--muted); text-align:center; padding:20px; z-index:3;
