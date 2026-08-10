@@ -609,8 +609,8 @@ const Reminders = (() => {
   document.getElementById('proModalClose').addEventListener('click', closeProModal);
 
   // Plan toggle
-  let selectedPlan = 'lifetime';
-  const planLabels = { lifetime: 'Get Lifetime — $15 →', monthly: 'Start Monthly — $5.99/mo →' };
+  let selectedPlan = 'watermark';
+  const planLabels = { watermark: 'Remove Watermark — $2.99 →', pro: 'Get Full Pro — $9.99 →' };
   document.querySelectorAll('.pro-plan').forEach(el => {
     el.addEventListener('click', () => {
       document.querySelectorAll('.pro-plan').forEach(p => p.classList.remove('active'));
@@ -745,7 +745,6 @@ const Reminders = (() => {
       },
       onDone: (blobUrl, ext) => {
         fill.style.width  = '100%';
-        label.textContent = 'Done!';
         btn.disabled      = false;
         cta.style.display = 'block';
         btn.textContent   = 'Export Again';
@@ -754,7 +753,6 @@ const Reminders = (() => {
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
         if (isIOS) {
-          // iOS Safari ignores <a download> — open in new tab so user can long-press to save
           label.textContent = 'Video ready! Tap below to save it.';
           const saveBtn = document.createElement('a');
           saveBtn.href = blobUrl;
@@ -770,9 +768,14 @@ const Reminders = (() => {
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
-          label.textContent = '✓ Video saved to your downloads!';
+          label.textContent = '✓ Video saved!';
           setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
         }
+
+        // Show upgrade prompt to remove watermark
+        setTimeout(() => {
+          document.getElementById('proModal').classList.add('open');
+        }, 1200);
       },
       onError: msg => {
         wrap.style.display = 'none';

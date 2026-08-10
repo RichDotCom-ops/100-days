@@ -63,6 +63,28 @@ const VideoExport = (() => {
     ctx.fillText(label, bx + pad, by + bh - pad * 0.7);
   }
 
+  // Watermark overlay for free tier
+  function drawWatermark(ctx, w, h) {
+    const fontSize = Math.round(h * 0.028);
+    ctx.font = `700 ${fontSize}px -apple-system, BlinkMacSystemFont, sans-serif`;
+    const label = '100 · Transformation Tracker';
+    const textW = ctx.measureText(label).width;
+    const pad = fontSize * 0.5;
+    const bx = w - textW - pad * 2 - pad;
+    const by = h - pad * 2.2;
+    const bw = textW + pad * 2;
+    const bh = fontSize + pad;
+    const br = bh / 2;
+
+    ctx.fillStyle = 'rgba(0,0,0,0.45)';
+    ctx.beginPath();
+    ctx.roundRect(bx, by, bw, bh, br);
+    ctx.fill();
+
+    ctx.fillStyle = 'rgba(255,255,255,0.75)';
+    ctx.fillText(label, bx + pad, by + bh - pad * 0.7);
+  }
+
   // Load an <img> element from a URL, resolve when loaded
   function loadImg(url) {
     return new Promise((resolve, reject) => {
@@ -75,7 +97,7 @@ const VideoExport = (() => {
   }
 
   // Render a single frame for `durationMs` milliseconds at 30fps
-  async function renderFrame(ctx, img, dayNumber, w, h, durationMs, onProgress) {
+  async function renderFrame(ctx, img, dayNumber, w, h, durationMs, showWatermark, onProgress) {
     const fps       = 30;
     const totalFrames = Math.round((durationMs / 1000) * fps);
     const frameDelay  = 1000 / fps;
@@ -86,6 +108,7 @@ const VideoExport = (() => {
       ctx.fillRect(0, 0, w, h);
       drawCover(ctx, img, w, h);
       drawDayBadge(ctx, dayNumber, w, h);
+      if (showWatermark) drawWatermark(ctx, w, h);
       if (onProgress) onProgress();
       await new Promise(r => setTimeout(r, frameDelay));
     }
@@ -96,8 +119,9 @@ const VideoExport = (() => {
    * @param {Array}    entries       — Store entries (must have .dayNumber, .photoId)
    * @param {Function} getPhotoUrl   — async (photoId) => objectURL | null
    * @param {Object}   callbacks     — { onProgress(pct), onDone(blobUrl, ext), onError(msg) }
+   * @param {Boolean}  isPro         — if true, no watermark
    */
-  async function build(entries, getPhotoUrl, { onProgress, onDone, onError }) {
+  async function build(entries, getPhotoUrl, { onProgress, onDone, onError }, isPro = false) {
     if (!entries || entries.length < 2) {
       onError('Need at least 2 photos to create a video.');
       return;
@@ -150,7 +174,7 @@ const VideoExport = (() => {
       try { img = await loadImg(url); }
       catch { continue; }
 
-      await renderFrame(ctx, img, entry.dayNumber, W, H, frameDurationMs, () => {
+      await renderFrame(ctx, img, entry.dayNumber, W, H, frameDurationMs, !isPro, () => {
         renderedFrames++;
         if (onProgress) onProgress(Math.min(renderedFrames / totalFrames, 0.99));
       });
