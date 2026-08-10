@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#F72585">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -508,41 +508,73 @@
     <!-- Pro upgrade sheet -->
     <div id="proModal" class="pro-modal">
       <div class="pro-sheet">
+
+        <!-- Close handle -->
+        <div class="pro-handle-row">
+          <div class="pro-handle"></div>
+          <button class="pro-x" id="proModalClose">✕</button>
+        </div>
+
+        <!-- Header -->
         <div class="pro-header">
           <div class="pro-dot-grid" aria-hidden="true"></div>
-          <div class="pro-badge">PRO</div>
-          <h2 class="pro-title">Unlock Pro</h2>
-          <p class="pro-sub">Everything unlocked. Forever.</p>
+          <div class="pro-crown">👑</div>
+          <h2 class="pro-title">Go Pro</h2>
+          <p class="pro-sub">Unlock your full transformation</p>
         </div>
+
         <div class="pro-body">
+
+          <!-- Features -->
           <ul class="pro-features">
-            <li><span class="pro-check">✦</span><div><b>Transformation Video Export</b><span>Download your journey as a time-lapse video</span></div></li>
-            <li><span class="pro-check">✦</span><div><b>Cloud Backup</b><span>Photos synced & safe — coming soon</span></div></li>
-            <li><span class="pro-check">✦</span><div><b>Advanced Analytics</b><span>Consistency score, best streaks & more</span></div></li>
-            <li><span class="pro-check">✦</span><div><b>Priority Support</b><span>Direct line to the team</span></div></li>
+            <li>
+              <div class="pro-feat-icon">🎬</div>
+              <div>
+                <b>Transformation Video</b>
+                <span>Export your journey as a time-lapse video to share</span>
+              </div>
+            </li>
+            <li>
+              <div class="pro-feat-icon">📊</div>
+              <div>
+                <b>Advanced Stats</b>
+                <span>Consistency score, streaks, body measurements over time</span>
+              </div>
+            </li>
+            <li>
+              <div class="pro-feat-icon">🔔</div>
+              <div>
+                <b>Smart Reminders</b>
+                <span>Daily push notifications so you never miss a day</span>
+              </div>
+            </li>
+            <li>
+              <div class="pro-feat-icon">☁️</div>
+              <div>
+                <b>Cloud Backup</b>
+                <span>Photos backed up safely — never lose your progress</span>
+              </div>
+            </li>
           </ul>
 
-          <!-- Pricing toggle -->
+          <!-- Plan toggle -->
           <div class="pro-plan-toggle">
-            <div class="pro-plan active" id="planLifetime" data-plan="lifetime">
-              <div class="pro-plan-top">
-                <span class="pro-plan-name">Lifetime</span>
-                <span class="pro-plan-badge-best">BEST VALUE</span>
-              </div>
-              <div class="pro-plan-price"><span class="pro-currency">$</span>14.99</div>
-              <div class="pro-plan-note">Pay once, own forever</div>
-            </div>
             <div class="pro-plan" id="planMonthly" data-plan="monthly">
-              <div class="pro-plan-top">
-                <span class="pro-plan-name">Monthly</span>
-              </div>
-              <div class="pro-plan-price"><span class="pro-currency">$</span>2.99<span class="pro-period">/mo</span></div>
+              <div class="pro-plan-name">Monthly</div>
+              <div class="pro-plan-price"><span class="pro-currency">$</span>5.99<span class="pro-period">/mo</span></div>
               <div class="pro-plan-note">Cancel anytime</div>
+            </div>
+            <div class="pro-plan active" id="planLifetime" data-plan="lifetime">
+              <div class="pro-plan-best">BEST VALUE</div>
+              <div class="pro-plan-name">Lifetime</div>
+              <div class="pro-plan-price"><span class="pro-currency">$</span>15</div>
+              <div class="pro-plan-note">Pay once, own forever</div>
             </div>
           </div>
 
-          <button class="pro-cta" id="proUpgradeBtn">Get Lifetime — $14.99 →</button>
-          <button class="pro-dismiss" id="proModalClose">Maybe later</button>
+          <button class="pro-cta" id="proUpgradeBtn">Get Lifetime — $15 →</button>
+          <p class="pro-fine">No hidden fees · Cancel monthly anytime · One-time for lifetime</p>
+          <button class="pro-dismiss" id="proRestoreBtn">Restore Purchase</button>
         </div>
       </div>
     </div>

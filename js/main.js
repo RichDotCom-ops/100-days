@@ -610,7 +610,7 @@ const Reminders = (() => {
 
   // Plan toggle
   let selectedPlan = 'lifetime';
-  const planLabels = { lifetime: 'Get Lifetime — $14.99 →', monthly: 'Start Monthly — $2.99/mo →' };
+  const planLabels = { lifetime: 'Get Lifetime — $15 →', monthly: 'Start Monthly — $5.99/mo →' };
   document.querySelectorAll('.pro-plan').forEach(el => {
     el.addEventListener('click', () => {
       document.querySelectorAll('.pro-plan').forEach(p => p.classList.remove('active'));
@@ -622,6 +622,10 @@ const Reminders = (() => {
 
   document.getElementById('proUpgradeBtn').addEventListener('click', () => {
     UI.toast('Payment coming soon — stay tuned!');
+  });
+
+  document.getElementById('proRestoreBtn').addEventListener('click', () => {
+    UI.toast('No purchase found to restore.');
   });
 
   document.getElementById('deleteAllBtn').addEventListener('click', async () => {
@@ -876,6 +880,11 @@ const Reminders = (() => {
     hideOnboarding();
     if (Store.getSettings().reminderEnabled) Reminders.start();
     setTimeout(() => Tutorial.start(), 500);
+  }
+
+  // ---------- Orientation lock ----------
+  if (screen.orientation && screen.orientation.lock) {
+    screen.orientation.lock('portrait').catch(() => {});
   }
 
   // ---------- Boot ----------
