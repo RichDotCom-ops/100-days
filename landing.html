@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transformation Tracker — 100 Day Challenge</title>
+<meta name="description" content="Track your 100-day body transformation with daily progress photos. Fully private. Works offline. Available on the App Store.">
+<meta property="og:title" content="Transformation Tracker">
+<meta property="og:description" content="Document your body. Own your change. One photo a day.">
+<meta property="og:image" content="1.png">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --pink: #F72585;
+    --lime: #C8FF00;
+    --bg: #000;
+    --surface: #0f0f0f;
+    --card: #141414;
+    --muted: #666;
+    --text: #fff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 40px;
+    background: rgba(0,0,0,.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255,255,255,.05);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 16px; font-weight: 700; letter-spacing: -.3px;
+  }
+  .nav-logo-dot {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: var(--pink);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 900; color: #fff;
+  }
+  .nav-cta {
+    background: var(--pink); color: #fff;
+    border: none; border-radius: 50px; padding: 10px 22px;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    text-decoration: none;
+    transition: opacity .2s, transform .2s;
+  }
+  .nav-cta:hover { opacity: .85; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 120px 24px 80px;
+    position: relative; overflow: hidden;
+  }
+  .hero-glow {
+    position: absolute; top: 10%; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(247,37,133,.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(200,255,0,.12); border: 1px solid rgba(200,255,0,.3);
+    color: var(--lime); border-radius: 50px; padding: 6px 16px;
+    font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--lime); }
+  .hero h1 {
+    font-size: clamp(52px, 10vw, 110px);
+    font-weight: 900; line-height: .95; letter-spacing: -3px;
+    margin-bottom: 28px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--pink), #B5179E);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: clamp(16px, 2.5vw, 20px); color: #999; line-height: 1.6;
+    max-width: 520px; margin: 0 auto 48px;
+  }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--pink); color: #fff;
+    border-radius: 50px; padding: 16px 32px;
+    font-size: 16px; font-weight: 700; text-decoration: none;
+    transition: transform .2s, box-shadow .2s;
+    box-shadow: 0 0 40px rgba(247,37,133,.35);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 60px rgba(247,37,133,.5); }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(255,255,255,.08); color: #fff;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 50px; padding: 16px 32px;
+    font-size: 16px; font-weight: 600; text-decoration: none;
+    transition: background .2s;
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,.13); }
+
+  /* phone strip */
+  .hero-phones {
+    display: flex; gap: 20px; justify-content: center; align-items: flex-end;
+    margin-top: 72px; padding: 0 20px;
+    overflow: hidden;
+  }
+  .hero-phones img {
+    height: 520px; border-radius: 36px;
+    box-shadow: 0 40px 80px rgba(0,0,0,.8);
+    transition: transform .4s;
+  }
+  .hero-phones img:nth-child(1) { transform: rotate(-4deg) translateY(20px); }
+  .hero-phones img:nth-child(2) { transform: rotate(0deg) translateY(-10px); z-index: 2; }
+  .hero-phones img:nth-child(3) { transform: rotate(4deg) translateY(20px); }
+  .hero-phones img:nth-child(4) { display: none; }
+
+  /* ── STATS BAR ── */
+  .stats {
+    display: flex; justify-content: center; gap: 0;
+    border-top: 1px solid rgba(255,255,255,.06);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    background: var(--surface);
+  }
+  .stat {
+    flex: 1; max-width: 220px;
+    text-align: center; padding: 40px 20px;
+    border-right: 1px solid rgba(255,255,255,.06);
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num { font-size: 36px; font-weight: 900; letter-spacing: -1px; color: var(--pink); }
+  .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; font-weight: 500; }
+
+  /* ── FEATURES ── */
+  .section { padding: 120px 24px; max-width: 1100px; margin: 0 auto; }
+
+  .feature {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center; margin-bottom: 140px;
+  }
+  .feature:last-child { margin-bottom: 0; }
+  .feature.reverse { direction: rtl; }
+  .feature.reverse > * { direction: ltr; }
+
+  .feature-text {}
+  .feature-eyebrow {
+    font-size: 11px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--pink); margin-bottom: 16px;
+  }
+  .feature h2 {
+    font-size: clamp(32px, 4vw, 52px); font-weight: 900; line-height: 1.05;
+    letter-spacing: -1.5px; margin-bottom: 20px;
+  }
+  .feature p {
+    font-size: 17px; color: #888; line-height: 1.7; margin-bottom: 32px;
+  }
+  .feature-pills { display: flex; gap: 10px; flex-wrap: wrap; }
+  .pill {
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+    border-radius: 50px; padding: 8px 16px; font-size: 13px; font-weight: 600; color: #ccc;
+  }
+
+  .feature-img-wrap {
+    position: relative; display: flex; justify-content: center;
+  }
+  .feature-img-wrap::before {
+    content: ''; position: absolute; inset: -40px;
+    background: radial-gradient(circle at center, rgba(247,37,133,.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .feature-img-wrap img {
+    width: 260px; border-radius: 36px;
+    box-shadow: 0 40px 100px rgba(0,0,0,.7);
+  }
+
+  /* ── PRIVACY BLOCK ── */
+  .privacy-section {
+    background: var(--surface);
+    border-top: 1px solid rgba(255,255,255,.06);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    padding: 100px 24px; text-align: center;
+  }
+  .privacy-icon {
+    width: 64px; height: 64px; border-radius: 20px;
+    background: rgba(200,255,0,.1); border: 1px solid rgba(200,255,0,.2);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 28px;
+  }
+  .privacy-section h2 { font-size: 40px; font-weight: 900; letter-spacing: -1.5px; margin-bottom: 16px; }
+  .privacy-section p { font-size: 17px; color: #777; max-width: 520px; margin: 0 auto; line-height: 1.7; }
+  .privacy-cards {
+    display: flex; justify-content: center; gap: 16px; margin-top: 56px; flex-wrap: wrap;
+  }
+  .privacy-card {
+    background: var(--card); border: 1px solid rgba(255,255,255,.07);
+    border-radius: 20px; padding: 28px 24px; max-width: 220px; text-align: left;
+  }
+  .privacy-card-icon { font-size: 28px; margin-bottom: 14px; }
+  .privacy-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .privacy-card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* ── CTA ── */
+  .cta-section {
+    padding: 140px 24px; text-align: center;
+    position: relative; overflow: hidden;
+  }
+  .cta-glow {
+    position: absolute; bottom: -100px; left: 50%; transform: translateX(-50%);
+    width: 700px; height: 400px;
+    background: radial-gradient(ellipse, rgba(247,37,133,.2) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-section h2 {
+    font-size: clamp(40px, 7vw, 80px); font-weight: 900;
+    letter-spacing: -2px; line-height: 1; margin-bottom: 20px;
+  }
+  .cta-section p { font-size: 18px; color: #777; margin-bottom: 48px; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid rgba(255,255,255,.06);
+    padding: 40px 24px; text-align: center;
+    color: var(--muted); font-size: 13px;
+  }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: #fff; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .feature { grid-template-columns: 1fr; gap: 48px; margin-bottom: 100px; }
+    .feature.reverse { direction: ltr; }
+    .feature-img-wrap { order: -1; }
+    .feature-img-wrap img { width: 220px; }
+    .hero-phones img { height: 340px; }
+    .stats { flex-wrap: wrap; }
+    .stat { min-width: 50%; border-bottom: 1px solid rgba(255,255,255,.06); }
+  }
+  @media (max-width: 480px) {
+    .hero-phones img:nth-child(1),
+    .hero-phones img:nth-child(3) { display: none; }
+    .hero-phones img:nth-child(2) { height: 420px; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-dot">100</div>
+    Transformation Tracker
+  </div>
+  <a href="#download" class="nav-cta">Download</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge"><span></span> Now on the App Store</div>
+  <h1>100 Days.<br><em>Your Body.</em><br>Your Proof.</h1>
+  <p class="hero-sub">Take one photo a day. Watch yourself transform. The simplest way to document your 100-day body challenge.</p>
+  <div class="hero-actions">
+    <a href="#download" class="btn-primary">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      App Store
+    </a>
+    <a href="#features" class="btn-secondary">See how it works</a>
+  </div>
+  <div class="hero-phones">
+    <img src="2.png" alt="Daily photo logging">
+    <img src="1.png" alt="Transformation Tracker app">
+    <img src="3.png" alt="Before and after comparison">
+    <img src="4.png" alt="Settings">
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">100</div>
+    <div class="stat-label">Days of tracking</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">1</div>
+    <div class="stat-label">Photo per day</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">0</div>
+    <div class="stat-label">Data uploaded</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">Free</div>
+    <div class="stat-label">Forever</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div class="section" id="features">
+
+  <!-- Feature 1 -->
+  <div class="feature">
+    <div class="feature-text">
+      <div class="feature-eyebrow">Daily Logging</div>
+      <h2>One tap.<br>One photo.<br>Every day.</h2>
+      <p>Open the app, take your photo, save it. That's it. No complicated setup, no subscriptions. Just you and your progress, every single day.</p>
+      <div class="feature-pills">
+        <span class="pill">Daily reminders</span>
+        <span class="pill">Add notes</span>
+        <span class="pill">Log measurements</span>
+      </div>
+    </div>
+    <div class="feature-img-wrap">
+      <img src="2.png" alt="One click to transform your body">
+    </div>
+  </div>
+
+  <!-- Feature 2 -->
+  <div class="feature reverse">
+    <div class="feature-text">
+      <div class="feature-eyebrow">Before & After</div>
+      <h2>See your<br>transformation<br>side by side.</h2>
+      <p>Compare any two days instantly. Day 1 vs Day 30. Day 1 vs Day 100. The visual proof of your hard work, right there in your pocket.</p>
+      <div class="feature-pills">
+        <span class="pill">Side-by-side compare</span>
+        <span class="pill">Full timeline</span>
+        <span class="pill">Export video</span>
+      </div>
+    </div>
+    <div class="feature-img-wrap">
+      <img src="3.png" alt="Before and after comparison">
+    </div>
+  </div>
+
+  <!-- Feature 3 -->
+  <div class="feature">
+    <div class="feature-text">
+      <div class="feature-eyebrow">Simple by Design</div>
+      <h2>Everything<br>you need.<br>Nothing you don't.</h2>
+      <p>Set your challenge length — 30, 60, 100, or 365 days. Enable daily reminders. Pick your time. The app handles the rest.</p>
+      <div class="feature-pills">
+        <span class="pill">30–365 day challenges</span>
+        <span class="pill">Works offline</span>
+        <span class="pill">No account needed</span>
+      </div>
+    </div>
+    <div class="feature-img-wrap">
+      <img src="4.png" alt="Easy and simple to use">
+    </div>
+  </div>
+
+</div>
+
+<!-- PRIVACY -->
+<div class="privacy-section">
+  <div class="privacy-icon">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C8FF00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+  </div>
+  <h2>Your photos stay<br>on your device.</h2>
+  <p>We don't have servers. We don't have accounts. Your progress photos are stored only on your iPhone — never uploaded, never shared, never seen by anyone but you.</p>
+  <div class="privacy-cards">
+    <div class="privacy-card">
+      <div class="privacy-card-icon">📵</div>
+      <h4>No Account</h4>
+      <p>No sign-up, no email, no password. Open and go.</p>
+    </div>
+    <div class="privacy-card">
+      <div class="privacy-card-icon">🔒</div>
+      <h4>On-Device Only</h4>
+      <p>Photos and data never leave your phone.</p>
+    </div>
+    <div class="privacy-card">
+      <div class="privacy-card-icon">📡</div>
+      <h4>Works Offline</h4>
+      <p>No internet needed. The app works anywhere, anytime.</p>
+    </div>
+    <div class="privacy-card">
+      <div class="privacy-card-icon">🆓</div>
+      <h4>Free Forever</h4>
+      <p>No subscriptions. No in-app purchases. Free.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<section class="cta-section" id="download">
+  <div class="cta-glow"></div>
+  <h2>Start your<br><em style="font-style:normal; background:linear-gradient(135deg,#F72585,#B5179E); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">100 days</em><br>today.</h2>
+  <p>Document your body. Own your change.</p>
+  <a href="#" class="btn-primary" style="font-size:18px; padding:18px 40px;">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+    Download on the App Store
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 Transformation Tracker &nbsp;·&nbsp; <a href="#">Privacy Policy</a> &nbsp;·&nbsp; All data stored on-device only</p>
+</footer>
+
+</body>
+</html>
