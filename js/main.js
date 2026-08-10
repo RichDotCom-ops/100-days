@@ -772,10 +772,6 @@ const Reminders = (() => {
           setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
         }
 
-        // Show upgrade prompt to remove watermark
-        setTimeout(() => {
-          document.getElementById('proModal').classList.add('open');
-        }, 1200);
       },
       onError: msg => {
         wrap.style.display = 'none';
