@@ -741,19 +741,34 @@ const Reminders = (() => {
       },
       onDone: (blobUrl, ext) => {
         fill.style.width  = '100%';
-        label.textContent = 'Done! Saving…';
-        // Trigger download
-        const a = document.createElement('a');
-        a.href     = blobUrl;
-        a.download = `transformation-${new Date().toISOString().slice(0,10)}.${ext}`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
-        label.textContent = '✓ Video saved to your downloads!';
+        label.textContent = 'Done!';
         btn.disabled      = false;
         cta.style.display = 'block';
         btn.textContent   = 'Export Again';
+
+        const filename = `transformation-${new Date().toISOString().slice(0,10)}.${ext}`;
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+        if (isIOS) {
+          // iOS Safari ignores <a download> — open in new tab so user can long-press to save
+          label.textContent = 'Video ready! Tap below to save it.';
+          const saveBtn = document.createElement('a');
+          saveBtn.href = blobUrl;
+          saveBtn.target = '_blank';
+          saveBtn.rel = 'noopener';
+          saveBtn.textContent = '⬇ Hold & Save Video';
+          saveBtn.style.cssText = 'display:block;margin-top:10px;color:var(--accent);font-weight:700;font-size:14px;text-align:center;';
+          wrap.appendChild(saveBtn);
+        } else {
+          const a = document.createElement('a');
+          a.href     = blobUrl;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          label.textContent = '✓ Video saved to your downloads!';
+          setTimeout(() => URL.revokeObjectURL(blobUrl), 5000);
+        }
       },
       onError: msg => {
         wrap.style.display = 'none';
