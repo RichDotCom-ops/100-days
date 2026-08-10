@@ -308,10 +308,11 @@ const Camera = (() => {
 
 /**
  * notifications.js
- * Handles the daily reminder using the browser Notification API.
- * Honest limitation: like any plain web page (no service worker / push server),
- * this can only fire while the tab is open — it checks the clock every 30s.
- * That's disclosed to the user in the Reminder Time screen copy.
+ * Daily reminder system. Uses the Service Worker to show notifications so
+ * they appear even when the app is backgrounded (on iOS 16.4+ installed PWA
+ * and all modern Android/desktop browsers). Falls back to a direct
+ * Notification API call, then to an in-app toast.
+ * The tick runs every 30s while the app is open — no backend needed.
  */
 const Reminders = (() => {
   let intervalId = null;
@@ -323,13 +324,37 @@ const Reminders = (() => {
     return Notification.requestPermission();
   }
 
-  function fire(message) {
-    if ('Notification' in window && Notification.permission === 'granted') {
-      new Notification('100 · Transformation Tracker', { body: message });
-    } else {
-      // Fallback so the reminder still means something even without permission
-      UI.toast(message);
+  function isStandalone() {
+    return window.navigator.standalone === true ||
+      window.matchMedia('(display-mode: standalone)').matches;
+  }
+
+  async function fire(message) {
+    const title = '100 · Transformation Tracker';
+
+    // Best path: route through SW so it works when app is backgrounded
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({
+        type: 'SHOW_NOTIFICATION',
+        title,
+        body: message
+      });
+      return;
     }
+
+    // Direct Notification API (works when app is open)
+    if ('Notification' in window && Notification.permission === 'granted') {
+      new Notification(title, {
+        body: message,
+        icon: '/100-days/icons/icon-192.png',
+        badge: '/100-days/icons/icon-192.png',
+        tag: 'daily-reminder',
+      });
+      return;
+    }
+
+    // Fallback: in-app toast
+    UI.toast(message);
   }
 
   function tick() {
@@ -360,7 +385,7 @@ const Reminders = (() => {
     intervalId = null;
   }
 
-  return { requestPermission, start, stop };
+  return { requestPermission, start, stop, isStandalone };
 })();
 
 
@@ -546,18 +571,27 @@ const Reminders = (() => {
 
   // ---------- Settings ----------
   document.getElementById('reminderToggleRow').addEventListener('click', async (e) => {
-    if (e.target.closest('[data-goto]')) return; // let other rows' nav handle themselves
+    if (e.target.closest('[data-goto]')) return;
     const settings = Store.getSettings();
     const next = !settings.reminderEnabled;
     if (next) {
       const perm = await Reminders.requestPermission();
       if (perm === 'denied') {
-        UI.toast('Notifications are blocked in your browser settings');
+        UI.toast('Notifications blocked — enable in Settings > Safari');
+        return;
+      }
+      if (perm === 'unsupported') {
+        UI.toast('Add app to Home Screen to enable notifications');
+        return;
+      }
+      // iOS: nudge user to install if not already standalone
+      if (!Reminders.isStandalone()) {
+        UI.toast('Add to Home Screen for reliable notifications');
       }
     }
     Store.saveSettings({ reminderEnabled: next });
     UI.renderSettings();
-    Reminders.start();
+    if (next) Reminders.start(); else Reminders.stop();
   });
 
   document.getElementById('saveReminderBtn').addEventListener('click', () => {
