@@ -668,7 +668,10 @@
 
 .vx-empty{ background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:24px; text-align:center; }
 .vx-empty p{ font-size:13px; color:var(--muted); margin:0; line-height:1.5; }
-.vx-cta{ margin-top:4px; }
+.vx-cta{ margin-top:4px; display:flex; flex-direction:column; gap:12px; }
+.vx-pro-btn{ background:none; border:1.5px solid var(--accent); color:var(--accent); border-radius:16px; font-size:14px; font-weight:700; padding:14px; width:100%; cursor:pointer; letter-spacing:.01em; }
+.vx-pro-btn:active{ opacity:.75; }
+.vx-pro-btn.hidden{ display:none; }
 
 /* ================= ABOUT ================= */
 .about-hero{

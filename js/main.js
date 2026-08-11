@@ -660,6 +660,20 @@ const Reminders = (() => {
 
   // exportVideoBtn now navigates via data-goto="video-export" (declarative)
 
+  function openProModal() {
+    const m = document.getElementById('proModal');
+    m.classList.add('open');
+  }
+
+  // Show/hide the Pro button based on Pro status
+  function syncProBtn() {
+    const btn = document.getElementById('vxProBtn');
+    if (btn) btn.classList.toggle('hidden', isProUser());
+  }
+  syncProBtn();
+
+  document.getElementById('vxProBtn').addEventListener('click', openProModal);
+
   function closeProModal() {
     const m = document.getElementById('proModal');
     m.classList.add('closing');
@@ -686,6 +700,7 @@ const Reminders = (() => {
     unlockPro();
     history.replaceState(null, '', window.location.pathname);
     UI.toast('Pro unlocked! No more watermark.');
+    syncProBtn();
   }
 
   let selectedPlan = 'watermark';
