@@ -671,8 +671,25 @@ const Reminders = (() => {
   document.getElementById('proModalClose').addEventListener('click', closeProModal);
 
   // Plan toggle
+  const STRIPE_LINK = 'https://buy.stripe.com/test_cNieVe8QXcj1fGX8oJ4ko00';
+
+  function isProUser() {
+    return localStorage.getItem('isPro') === 'true';
+  }
+
+  function unlockPro() {
+    localStorage.setItem('isPro', 'true');
+  }
+
+  // If returning from Stripe success redirect, unlock and clean the URL
+  if (new URLSearchParams(window.location.search).get('pro') === 'unlocked') {
+    unlockPro();
+    history.replaceState(null, '', window.location.pathname);
+    UI.toast('Pro unlocked! No more watermark.');
+  }
+
   let selectedPlan = 'watermark';
-  const planLabels = { watermark: 'Remove Watermark — $2.99 →', pro: 'Get Full Pro — $9.99 →' };
+  const planLabels = { watermark: 'Remove Watermark — $3.99/mo →', pro: 'Get Full Pro — $3.99/mo →' };
   document.querySelectorAll('.pro-plan').forEach(el => {
     el.addEventListener('click', () => {
       document.querySelectorAll('.pro-plan').forEach(p => p.classList.remove('active'));
@@ -683,11 +700,20 @@ const Reminders = (() => {
   });
 
   document.getElementById('proUpgradeBtn').addEventListener('click', () => {
-    UI.toast('Payment coming soon — stay tuned!');
+    if (isProUser()) {
+      UI.toast('You already have Pro!');
+      closeProModal();
+      return;
+    }
+    window.location.href = STRIPE_LINK;
   });
 
   document.getElementById('proRestoreBtn').addEventListener('click', () => {
-    UI.toast('No purchase found to restore.');
+    if (isProUser()) {
+      UI.toast('Pro is active on this device.');
+    } else {
+      UI.toast('No purchase found. Complete payment to unlock Pro.');
+    }
   });
 
   document.getElementById('deleteAllBtn').addEventListener('click', async () => {
@@ -842,7 +868,7 @@ const Reminders = (() => {
         btn.disabled       = false;
         UI.toast(msg);
       },
-    });
+    }, isProUser());
   });
 
   // ---------- Onboarding ----------
