@@ -256,9 +256,6 @@ const UI = (() => {
     const waterUnit = s.waterUnit || 'gl';
     document.getElementById('unitGlasses').classList.toggle('active', waterUnit === 'gl');
     document.getElementById('unitOz').classList.toggle('active', waterUnit === 'oz');
-    const hasStats = !!(s.weight || s.waist || s.chest || s.hips || s.bodyFat || s.sleep || s.water || s.steps);
-    document.getElementById('statsFields').classList.toggle('open', hasStats);
-    document.getElementById('statsToggleIcon').textContent = hasStats ? '−' : '+';
   }
 
   function buildStatsChart(entries) {

@@ -178,15 +178,20 @@
           <div class="count" id="noteCount">0/100</div>
         </div>
         <div class="stats-section" id="statsSection">
-          <div class="stats-section-head" id="statsToggleHead">
-            <span class="stats-head-label">Log measurements <span style="color:var(--muted-2);font-size:11px;font-weight:400;">(optional)</span></span>
-            <span class="stats-toggle-caret" id="statsToggleIcon">+</span>
+          <div class="stats-section-head">
+            <span class="stats-head-label">Measurements</span>
           </div>
           <div class="stats-fields" id="statsFields">
+            <div class="stat-group-label">Body</div>
             <div class="stat-input-row">
               <span class="stat-input-label">Weight</span>
               <input type="number" id="statWeight" class="stat-num-input" placeholder="—" step="0.1" min="0" inputmode="decimal">
               <div class="unit-toggle"><div class="unit-btn active" id="unitLbs">lbs</div><div class="unit-btn" id="unitKg">kg</div></div>
+            </div>
+            <div class="stat-input-row">
+              <span class="stat-input-label">Body Fat</span>
+              <input type="number" id="statBodyFat" class="stat-num-input" placeholder="—" step="0.1" min="0" max="60" inputmode="decimal">
+              <span class="stat-unit-echo">%</span>
             </div>
             <div class="stat-input-row">
               <span class="stat-input-label">Waist</span>
@@ -203,12 +208,8 @@
               <input type="number" id="statHips" class="stat-num-input" placeholder="—" step="0.1" min="0" inputmode="decimal">
               <span class="stat-unit-echo" id="statHipsUnit">in</span>
             </div>
+            <div class="stat-group-label">Daily Habits</div>
             <div class="stat-input-row">
-              <span class="stat-input-label">Body Fat</span>
-              <input type="number" id="statBodyFat" class="stat-num-input" placeholder="—" step="0.1" min="0" max="60" inputmode="decimal">
-              <span class="stat-unit-echo">%</span>
-            </div>
-            <div class="stat-input-row stat-divider">
               <span class="stat-input-label">Sleep</span>
               <input type="number" id="statSleep" class="stat-num-input" placeholder="—" step="0.5" min="0" max="24" inputmode="decimal">
               <span class="stat-unit-echo">hrs</span>

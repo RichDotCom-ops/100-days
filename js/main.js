@@ -501,13 +501,6 @@ const Reminders = (() => {
     document.getElementById('noteCount').textContent = `${noteEl.value.length}/100`;
   });
 
-  document.getElementById('statsToggleHead').addEventListener('click', () => {
-    const fields = document.getElementById('statsFields');
-    const icon = document.getElementById('statsToggleIcon');
-    const open = fields.classList.toggle('open');
-    icon.textContent = open ? '−' : '+';
-  });
-
   ['unitLbs', 'unitKg'].forEach(id => {
     document.getElementById(id).addEventListener('click', () => {
       document.getElementById('unitLbs').classList.toggle('active', id === 'unitLbs');
