@@ -501,6 +501,13 @@ const Reminders = (() => {
     document.getElementById('noteCount').textContent = `${noteEl.value.length}/100`;
   });
 
+  document.getElementById('statsToggleHead').addEventListener('click', () => {
+    const fields = document.getElementById('statsFields');
+    const icon = document.getElementById('statsToggleIcon');
+    const open = fields.classList.toggle('open');
+    icon.textContent = open ? '−' : '+';
+  });
+
   ['unitLbs', 'unitKg'].forEach(id => {
     document.getElementById(id).addEventListener('click', () => {
       document.getElementById('unitLbs').classList.toggle('active', id === 'unitLbs');
@@ -519,13 +526,6 @@ const Reminders = (() => {
     });
   });
 
-  ['unitGlasses', 'unitOz'].forEach(id => {
-    document.getElementById(id).addEventListener('click', () => {
-      document.getElementById('unitGlasses').classList.toggle('active', id === 'unitGlasses');
-      document.getElementById('unitOz').classList.toggle('active', id === 'unitOz');
-    });
-  });
-
   document.getElementById('saveDayBtn').addEventListener('click', async () => {
     if (!pendingPhoto) {
       UI.toast('No photo to save');
@@ -538,19 +538,13 @@ const Reminders = (() => {
       await DB.savePhoto(photoId, pendingPhoto.blob);
       const weightUnit = document.getElementById('unitLbs').classList.contains('active') ? 'lbs' : 'kg';
       const measureUnit = document.getElementById('unitIn').classList.contains('active') ? 'in' : 'cm';
-      const waterUnit = document.getElementById('unitGlasses').classList.contains('active') ? 'gl' : 'oz';
       const stats = {
-        weight:  document.getElementById('statWeight').value.trim() || null,
-        waist:   document.getElementById('statWaist').value.trim() || null,
-        chest:   document.getElementById('statChest').value.trim() || null,
-        hips:    document.getElementById('statHips').value.trim() || null,
-        bodyFat: document.getElementById('statBodyFat').value.trim() || null,
-        sleep:   document.getElementById('statSleep').value.trim() || null,
-        water:   document.getElementById('statWater').value.trim() || null,
-        steps:   document.getElementById('statSteps').value.trim() || null,
+        weight: document.getElementById('statWeight').value.trim() || null,
+        waist: document.getElementById('statWaist').value.trim() || null,
+        chest: document.getElementById('statChest').value.trim() || null,
+        hips: document.getElementById('statHips').value.trim() || null,
         weightUnit,
         measureUnit,
-        waterUnit,
       };
       const { entry, replacedPhotoId, wasReplace } = Store.upsertEntry({ photoId, note: noteEl.value.trim(), stats });
       if (replacedPhotoId) {

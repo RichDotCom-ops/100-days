@@ -241,10 +241,6 @@ const UI = (() => {
     document.getElementById('statWaist').value = s.waist || '';
     document.getElementById('statChest').value = s.chest || '';
     document.getElementById('statHips').value = s.hips || '';
-    document.getElementById('statBodyFat').value = s.bodyFat || '';
-    document.getElementById('statSleep').value = s.sleep || '';
-    document.getElementById('statWater').value = s.water || '';
-    document.getElementById('statSteps').value = s.steps || '';
     const wu = s.weightUnit || 'lbs';
     document.getElementById('unitLbs').classList.toggle('active', wu === 'lbs');
     document.getElementById('unitKg').classList.toggle('active', wu === 'kg');
@@ -253,27 +249,23 @@ const UI = (() => {
     document.getElementById('unitCm').classList.toggle('active', mu === 'cm');
     document.getElementById('statChestUnit').textContent = mu;
     document.getElementById('statHipsUnit').textContent = mu;
-    const waterUnit = s.waterUnit || 'gl';
-    document.getElementById('unitGlasses').classList.toggle('active', waterUnit === 'gl');
-    document.getElementById('unitOz').classList.toggle('active', waterUnit === 'oz');
+    const hasStats = !!(s.weight || s.waist || s.chest || s.hips);
+    document.getElementById('statsFields').classList.toggle('open', hasStats);
+    document.getElementById('statsToggleIcon').textContent = hasStats ? '−' : '+';
   }
 
   function buildStatsChart(entries) {
     const statKeys = [
-      { key: 'weight',  label: 'Weight',   unitKey: 'weightUnit' },
-      { key: 'waist',   label: 'Waist',    unitKey: 'measureUnit' },
-      { key: 'chest',   label: 'Chest',    unitKey: 'measureUnit' },
-      { key: 'hips',    label: 'Hips',     unitKey: 'measureUnit' },
-      { key: 'bodyFat', label: 'Body Fat', unit: '%' },
-      { key: 'sleep',   label: 'Sleep',    unit: 'hrs' },
-      { key: 'water',   label: 'Water',    unitKey: 'waterUnit' },
-      { key: 'steps',   label: 'Steps',    unit: '' },
+      { key: 'weight', label: 'Weight', unitKey: 'weightUnit' },
+      { key: 'waist',  label: 'Waist',  unitKey: 'measureUnit' },
+      { key: 'chest',  label: 'Chest',  unitKey: 'measureUnit' },
+      { key: 'hips',   label: 'Hips',   unitKey: 'measureUnit' },
     ];
 
-    const charts = statKeys.map(({ key, label, unitKey, unit: staticUnit }) => {
+    const charts = statKeys.map(({ key, label, unitKey }) => {
       const points = entries
         .filter(e => e.stats && e.stats[key])
-        .map(e => ({ day: e.dayNumber, val: parseFloat(e.stats[key]), unit: staticUnit !== undefined ? staticUnit : (e.stats[unitKey] || '') }));
+        .map(e => ({ day: e.dayNumber, val: parseFloat(e.stats[key]), unit: e.stats[unitKey] || '' }));
       if (points.length < 2) return '';
 
       const vals = points.map(p => p.val);
@@ -495,14 +487,10 @@ const UI = (() => {
     const statsEl = document.getElementById('dayModalStats');
     const s = entry.stats || {};
     const chips = [];
-    if (s.weight)  chips.push(`<div class="day-modal-stat"><div class="dms-label">Weight</div><div class="dms-val">${s.weight} ${s.weightUnit || 'lbs'}</div></div>`);
-    if (s.waist)   chips.push(`<div class="day-modal-stat"><div class="dms-label">Waist</div><div class="dms-val">${s.waist} ${s.measureUnit || 'in'}</div></div>`);
-    if (s.chest)   chips.push(`<div class="day-modal-stat"><div class="dms-label">Chest</div><div class="dms-val">${s.chest} ${s.measureUnit || 'in'}</div></div>`);
-    if (s.hips)    chips.push(`<div class="day-modal-stat"><div class="dms-label">Hips</div><div class="dms-val">${s.hips} ${s.measureUnit || 'in'}</div></div>`);
-    if (s.bodyFat) chips.push(`<div class="day-modal-stat"><div class="dms-label">Body Fat</div><div class="dms-val">${s.bodyFat}%</div></div>`);
-    if (s.sleep)   chips.push(`<div class="day-modal-stat"><div class="dms-label">Sleep</div><div class="dms-val">${s.sleep} hrs</div></div>`);
-    if (s.water)   chips.push(`<div class="day-modal-stat"><div class="dms-label">Water</div><div class="dms-val">${s.water} ${s.waterUnit || 'gl'}</div></div>`);
-    if (s.steps)   chips.push(`<div class="day-modal-stat"><div class="dms-label">Steps</div><div class="dms-val">${Number(s.steps).toLocaleString()}</div></div>`);
+    if (s.weight) chips.push(`<div class="day-modal-stat"><div class="dms-label">Weight</div><div class="dms-val">${s.weight} ${s.weightUnit || 'lbs'}</div></div>`);
+    if (s.waist)  chips.push(`<div class="day-modal-stat"><div class="dms-label">Waist</div><div class="dms-val">${s.waist} ${s.measureUnit || 'in'}</div></div>`);
+    if (s.chest)  chips.push(`<div class="day-modal-stat"><div class="dms-label">Chest</div><div class="dms-val">${s.chest} ${s.measureUnit || 'in'}</div></div>`);
+    if (s.hips)   chips.push(`<div class="day-modal-stat"><div class="dms-label">Hips</div><div class="dms-val">${s.hips} ${s.measureUnit || 'in'}</div></div>`);
     statsEl.innerHTML = chips.join('');
     statsEl.style.display = chips.length ? 'flex' : 'none';
 
